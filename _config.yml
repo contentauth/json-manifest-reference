@@ -43,6 +43,6 @@ defaults:
 sidebars:
 - home_sidebar
 
-url: https://git.corp.adobe.com/pages/crandmck/c2pa-manifest-reference
+url: https://crandmck.github.io/c2pa-manifest-reference/
 
 # baseurl: /

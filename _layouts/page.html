@@ -15,17 +15,9 @@
 		{% if page.extra-css %}
 		<style>{{page.extra-css}}</style>
 		{% endif %}
-
-		{% if site.draft %}
-		<script src="{{site.url}}/js/draft-overlay.js"></script>
-		{% endif %}
 	</head>
 	<body>
 
-{% if site.draft %}
-		<div id="overlay"> <div id="overlay-text">{% include draft-doc-notice.html br="1"%} </div> </div>
-		<div id="draft-doc-notice">{% include draft-doc-notice.html %}</div>
-{% endif %}
 		<header id="full-sidebar">
 			<h1>
 				<a href="{{site.url}}"><img src="{{site.url}}/images/adobe_logo.png" height="60" alt="{{ site.title }}"></a>
