@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
+		<title>{{ page.title }} - {{site.site_title}}</title>
+		<link rel="stylesheet" href="{{site.url}}/css/style.css">
+		<link rel="shortcut icon" type="image/png" href="{{site.url}}/images/favicon.ico">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+		<script src="{{site.url}}/js/main.js"></script>
+		<script src="{{site.url}}/js/toc.js"></script>
+		<script src="{{site.url}}/js/jquery.stickytableheaders.js"></script>
+		<script src="{{site.url}}/js/customscripts.js"></script>
+		{% if page.extra-css %}
+		<style>{{page.extra-css}}</style>
+		{% endif %}
+	</head>
+	<body>
+		<!--
+		<header id="full-sidebar">
+			<h1>
+				<a href="{{site.url}}"><img src="{{site.url}}/images/adobe_logo.png" height="60" alt="{{ site.title }}"></a>
+				<a href="{{site.url}}"><div id="site-title">{{site.site_title}}</div></a>
+			</h1>
+
+			<form action="{{site.url}}/search/" method="get">
+				<input type="text" name="q" id="search-input" placeholder="Search the docs">
+				<input type="submit" value="Search" style="display: none;">
+			</form>
+		</header>
+	-->
+		<div id="main-div" class="main">
+			<section class="doc-content">
+				<section class="left-docs">
+{% unless page.no_edit %} {% include edit-me.html %} {% endunless %}
+					<div class="topic-title">{{ page.title }} </div>
+					{% if page.notice %}
+						{% capture notice %} {% include {{page.notice}}.md %} {% endcapture %}
+						{{ notice | markdownify }}
+					{% endif %}
+					<div id="sidebar-btns">
+					  <a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a>
+					</div>
+					{% if page.summary %}
+					<div id="topic-summary">{{page.summary | markdownify }} </div>
+					{% endif %}
+
+					{% unless page.toc==false or home_page %}
+						{% include toc.html %}
+					{% endunless %}
+
+					<button id="top-scroll-btn" title="Go to top">Scroll To Top</button>
+					{{ content }}
+				</section>
+			</section>
+		</div>
+		<script>
+			$(function() {
+				$("table").stickyTableHeaders();
+			});
+		</script>
+  </body>
+</html>

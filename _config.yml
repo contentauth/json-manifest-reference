@@ -1,0 +1,57 @@
+repository: contentauth/manifest-schema-reference
+output: web
+site_title: C2PA Manifest Store Reference
+company_name: "Adobe, Inc."
+description: Site description
+latest_version: 2.6.2
+draft: false
+
+host: 127.0.0.1
+# the preview server used. Leave as is.
+port: 4000
+# the port where the preview is rendered.
+
+exclude:
+  - .idea/
+  - .gitignore
+  - vendor
+
+exclude: [vendor]
+
+plugins:
+  - jekyll-redirect-from
+
+highlighter: rouge
+markdown: kramdown
+kramdown:
+ input: GFM
+ auto_ids: true
+ hard_wrap: false
+ syntax_highlighter: rouge
+
+defaults:
+  -
+    scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "page"
+      comments: true
+      search: true
+      sidebar: home_sidebar
+      topnav: topnav
+  -
+    scope:
+      path: ""
+      type: "faqs"
+    values:
+      layout: "faq"
+      comments: true
+      search: true
+
+sidebars:
+- home_sidebar
+
+url: https://git.corp.adobe.com/pages/rmckinne/doc-site-template
+
+# baseurl: /

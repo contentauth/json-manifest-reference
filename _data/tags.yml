@@ -1,0 +1,53 @@
+- tag: artifactory
+  tag_name: Artifactory
+
+- tag: cost
+  tag_name: "Cost management"
+
+- tag: docker
+  tag_name: Docker
+
+- tag: gpu
+  tag_name: "GPU compute"
+
+- tag: installation
+  tag_name: Installation
+
+- tag: jupyter
+  tag_name: JupyterLab
+
+- tag: model_training
+  tag_name: "Model training"
+
+- tag: models
+  tag_name: Models
+
+- tag: pytorch
+  tag_name: PyTorch
+
+- tag: runai
+  tag_name: "Run:ai"
+
+- tag: s3
+  tag_name: S3
+
+- tag: sensei-fs
+  tag_name: "Sensei FS"
+
+- tag: sensei_console
+  tag_name: "Sensei Console"
+
+- tag: sensei_tenants
+  tag_name: "Sensei tenants"
+
+- tag: ssh
+  tag_name: SSH
+
+- tag: storage
+  tag_name: Storage
+
+- tag: wandb
+  tag_name: "Weights and Biases"
+
+- tag: windows
+  tag_name: Windows

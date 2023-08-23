@@ -1,0 +1,2 @@
+{% assign xref = include.ref | remove_first: "#/definitions/" %}
+<a href="#{{xref|slugify}}">{{xref}}</a>

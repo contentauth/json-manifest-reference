@@ -1,0 +1,26 @@
+{% if include.obj.title %}
+  {% assign id = include.obj.url | replace_first: '/', '_'%}
+  {% assign id = id | slugify: 'pretty' %}
+    {% unless include.obj.excluded_in_search %}
+      {% if added %},{% endif %}
+      {% assign added = false %}
+
+      {% if include.obj.permalink %}
+        {% assign pageurl = include.obj.permalink %}
+      {% else %}
+        {% assign pageurl = include.obj.name %}
+      {% endif %}
+      {% assign raw_tag = "{% raw %" | append: "}" %}
+      {% assign endraw_tag = "{% endraw %" | append: "}" %}
+
+        "{{ id }}": {
+          "id": "{{ id }}",
+          "title": "{{ include.obj.title | xml_escape }}",
+          "description": "{{include.obj.description | xml_escape }}",
+          "url": "{{ include.obj.url }}",
+          "content": {{ include.obj.content | strip_html | replace_regex: "[\s/\n]+"," "  | strip_newlines | remove: raw_tag | remove: endraw_tag | jsonify }}
+        }
+
+      {% assign added = true %}
+    {% endunless %}
+  {% endif %}

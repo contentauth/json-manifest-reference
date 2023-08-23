@@ -1,0 +1,6 @@
+{% assign sidebar = site.data.sidebar %}
+<div id="sidebar" class="sidebar">
+    <ul id="sidebar-list" class="nav-list">
+      {% include sidebar_menu_list_items.liquid menuitems=sidebar.children %}
+    </ul>
+</div>

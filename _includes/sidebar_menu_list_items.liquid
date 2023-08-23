@@ -1,0 +1,12 @@
+{% for item in include.menuitems %}
+{% assign pageurl = page.url|remove: "/" %}
+{% assign itemurl = item.url|remove: "/" %}
+  <li class="{% if item.children.size > 0 %}tree-parent {%else%}leaf-node{% endif %}{% if pageurl  == itemurl  %} active{% endif %}{% if item.type == 'top-leaf' %} top-leaf{% endif %}">{% if item.children.size > 0 %} <a class="show-hide" href="#"></a> {% endif %}
+    <a class="page-link" href="{{site.url}}/{{item.url}}">{{ item.title }}</a>
+      {% if item.children.size > 0 %}
+      <ul class="nav-list">
+          {% include sidebar_menu_list_items.liquid menuitems=item.children %}
+      </ul>
+      {% endif %}
+  </li>
+{% endfor %}

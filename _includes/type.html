@@ -1,0 +1,28 @@
+{% if include.type.first %} <!-- include.type IS an array -->
+  {% for i in include.type %}
+    {% if i=='array' %}
+      Array of
+      {% if include.items.first %} <!-- items is an array -->
+        {% if include.items['$ref'] %}
+          {% assign defn_ref=include.items['$ref'] %}
+          {% include ref-to-link.html ref=defn_ref %}
+          <!-- {{include.items['$ref']}} -->
+        {%- else -%}
+          {{include.items}}
+        {%- endif -%}
+
+      {% else %} <!-- items is not an array -->
+        <!-- THIS IS A WEIRD CASE {{include.items}}-->
+      {% endif %}
+
+    {% else %}
+      {{i}}
+    {% endif %}
+
+    {% unless forloop.last %} or {% endunless %}
+
+  {% endfor %}
+
+{% else %} <!-- include.type is NOT an array -->
+  {{include.type}}
+{% endif %}

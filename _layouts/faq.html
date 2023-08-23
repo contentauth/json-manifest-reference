@@ -1,0 +1,27 @@
+---
+layout: page
+---
+
+<div class="faq-header">
+<a href="../faqs-by-topic.html">Frequently-asked questions (FAQs)</a>
+<form action="{{site.url}}/faq-search/" method="get">
+	Search FAQs: <input type="text" name="q" id="faq-search-input" placeholder="Search FAQs">
+	<input type="submit" value="Search FAQs" id="faq-search-button"> <!-- style="display: none;" -->
+</form>
+Didn't find your answer?  Try <a target="_blank" href="https://wiki.corp.adobe.com/questions/topics/1246134309/sensei">Questions & Answers</a> in the Sensei wiki.
+</div>
+
+{{content}}
+
+<div class="tags">
+Categories:
+<ul>
+{% for tag in page.tags %}
+{% for site_tag in site.data.tags %}
+  {% if tag==site_tag.tag %}
+    {% assign pretty_tag_name=site_tag.tag_name %}
+<li><a href="../faqs-by-topic.html#{{pretty_tag_name|slugify}}">{{pretty_tag_name}}</a> </li>
+  {% endif %}
+{% endfor %}
+{% endfor %}
+</ul></div>

@@ -1,0 +1,5 @@
+{%- if include.str -%}
+{{include.str | markdownify}}
+{%- else -%}
+<em>No description provided.</em>
+{% endif %}
