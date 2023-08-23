@@ -6,7 +6,7 @@ toc: false
 
 This is a reference for the C2PA JSON manifest.
 
-This is an experimental. It is an incomplete work in progress and may not be accurate.
+This is an experimental site. It is an incomplete work in progress and may not be accurate.
 {: .warning}
 
 {% include toc.html %}
