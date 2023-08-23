@@ -153,7 +153,7 @@ A string.
 
 {% include description.html str=entity.last.description %}
 
-A {{entity.type}} that is any of the following:
+{%- if entity.type -%}A {{entity.type}} that is any {%- else -%} Any {% endif %} of the following:
 
 <ul>{% for i in entity.anyOf %}
 
