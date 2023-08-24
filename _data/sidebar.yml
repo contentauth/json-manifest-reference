@@ -2,10 +2,10 @@ title: C2PA Manifest reference
 url: /
 children:
 
-  - title: Manifest store ref
+  - title: Manifest store reference
     url: /
     type: top-leaf
 
-  - title: Manifest JSON
+  - title: ManifestStore JSON schema
     url: schema
     type: top-leaf

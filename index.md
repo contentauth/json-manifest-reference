@@ -1,10 +1,9 @@
 ---
-title: C2PA Manifest store
+title: CAI manifest store reference
 toc: false
 ---
-{% assign schema=site.data.ManifestStore_schema %}
 
-This is a reference for the C2PA JSON manifest.
+This is a reference for the [Content Authenticity Initiative (CAI)](https://contentauthenticity.org/) manifest store JSON structure.  It is based on the definition of the manifest store in the [C2PA technical pecification](https://c2pa.org/specifications/specifications/1.3/specs/C2PA_Specification.html), but is not exactly the same.  The C2PA defines a binary structure, but the below references is for a JSON structure that can be used to create a C2PA manifest.
 
 This is an experimental site. It is an incomplete work in progress and may not be accurate.
 {: .warning}
@@ -13,6 +12,7 @@ This is an experimental site. It is an incomplete work in progress and may not b
 
 ## Properties
 
+{% assign schema=site.data.ManifestStore_schema %}
 {{schema.description}}.
 
 <table>

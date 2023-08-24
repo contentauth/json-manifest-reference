@@ -1,5 +1,5 @@
 ---
-title: ManifestStore JSON Schema
+title: CAI ManifestStore JSON Schema
 permalink: schema
 toc: false
 ---

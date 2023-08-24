@@ -1,6 +1,6 @@
 repository: contentauth/manifest-schema-reference
 output: web
-site_title: C2PA Manifest Store Reference
+site_title: Manifest Reference
 company_name: "Adobe, Inc."
 description: Site description
 draft: false

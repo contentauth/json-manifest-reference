@@ -1,2 +1,3 @@
 # c2pa-manifest-reference
-Experimental site for JSON manifest reference
+
+Experimental site for CAI JSON manifest reference.
