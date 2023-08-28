@@ -4,7 +4,11 @@ children:
 
   - title: Manifest store reference
     url: reference
-    type: top-leaf
+    children:
+
+    - title: CAI styling
+      url: reference-cai
+
 
   - title: ManifestStore JSON schema
     url: schema

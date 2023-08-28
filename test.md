@@ -8,7 +8,10 @@ toc: false
 
 ### {{forloop.index}}
 
-Crates:
+Input string:
+```
+{{desc_string}}
+```
 
 {% include crate-links.md str=desc_string %}
 

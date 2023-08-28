@@ -1,11 +1,10 @@
 {% assign the_array = include.str | split: " crate::" %}
 
-Input string =
+{% for i in the_array offset:1 %}<!-- i = input string split by "crate::" -->
 ```
-{{include.str}}
+i = {{i}}...
 ```
 
-{% for i in the_array offset:1 %}<!-- i = input string split by "crate::" -->
 {% assign len_less_one = i | size | minus: 1 %}
 
 {% assign last_char = i  | slice: len_less_one, 1 %}

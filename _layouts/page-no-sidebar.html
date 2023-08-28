@@ -17,28 +17,10 @@
 		{% endif %}
 	</head>
 	<body>
-		<!--
-		<header id="full-sidebar">
-			<h1>
-				<a href="{{site.url}}"><img src="{{site.url}}/images/adobe_logo.png" height="60" alt="{{ site.title }}"></a>
-				<a href="{{site.url}}"><div id="site-title">{{site.site_title}}</div></a>
-			</h1>
-
-			<form action="{{site.url}}/search/" method="get">
-				<input type="text" name="q" id="search-input" placeholder="Search the docs">
-				<input type="submit" value="Search" style="display: none;">
-			</form>
-		</header>
-	-->
 		<div id="main-div" class="main">
 			<section class="doc-content">
-				<section class="left-docs">
-{% unless page.no_edit %} {% include edit-me.html %} {% endunless %}
+				<section> <!-- class="left-docs" -->
 					<div class="topic-title">{{ page.title }} </div>
-					{% if page.notice %}
-						{% capture notice %} {% include {{page.notice}}.md %} {% endcapture %}
-						{{ notice | markdownify }}
-					{% endif %}
 					<div id="sidebar-btns">
 					  <a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a>
 					</div>
@@ -46,7 +28,7 @@
 					<div id="topic-summary">{{page.summary | markdownify }} </div>
 					{% endif %}
 
-					{% unless page.toc==false or home_page %}
+					{% unless page.toc==false %}
 						{% include toc.html %}
 					{% endunless %}
 
