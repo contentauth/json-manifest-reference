@@ -1,0 +1,11 @@
+{% assign isreq=false %}
+{% if include.required_list %}
+{% for x in include.required_list %}
+  {% if include.prop == x %}
+    {% assign isreq=true %}
+  {% endif %}
+{% endfor %}
+{% if isreq %} YES {% else %} NO {% endif %}
+{% else %}
+NO
+{% endif %}

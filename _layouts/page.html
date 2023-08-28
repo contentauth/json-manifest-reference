@@ -5,7 +5,7 @@
 		<meta name="viewport" content="initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" >
 		<title>{{ page.title }} - {{site.site_title}}</title>
 		<link rel="stylesheet" href="{{site.url}}/css/style.css">
-		<link rel="shortcut icon" type="image/png" href="{{site.url}}/images/favicon.ico">
+		<link rel="shortcut icon" type="image/png" href="{{site.url}}/images/favicon.png">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 		<script src="{{site.url}}/js/main.js"></script>
@@ -36,10 +36,6 @@
 			<section class="doc-content">
 				<section class="left-docs">
 					<div class="topic-title">{{ page.title }} </div>
-					{% if page.notice %}
-						{% capture notice %} {% include {{page.notice}}.md %} {% endcapture %}
-						{{ notice | markdownify }}
-					{% endif %}
 					<div id="sidebar-btns">
 					  <a id="tg-sb-link" href="#"><i id="tg-sb-icon" class="fa fa-toggle-on"></i> Nav</a>
 					</div>
