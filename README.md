@@ -43,8 +43,10 @@ Still WIP.
 
 ## Issues with schema JSON
 
-`Ingredient.metadata` property description references `Metadata` but provides link for `crate::Manifest`:
-
-```
-Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Manifest
-```
+- Many missing descriptions
+- `Ingredient.metadata` property description references `Metadata` but provides link for `crate::Manifest`:
+  ```
+  Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Manifest
+  ```
+- Some descriptions have [reference-style links](https://www.markdownguide.org/basic-syntax/#reference-style-links) without corresponding shortlink URLs; e.g. markdown like `[ManifestStore]` with no `crate::` ref or URL.
+- Some descriptions have [reference-style links](https://www.markdownguide.org/basic-syntax/#reference-style-links) that need to be on separate lines but are not.

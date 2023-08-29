@@ -3,7 +3,7 @@
     {% if i=='array' %}
       Array of
       {% if include.items.first %} <!-- items is an array -->
-        {% if include.items['$ref'] %}
+        {% if include.items['$ref'] %} <!-- JSON schema ref to anchor link -->
           {% assign defn_ref=include.items['$ref'] %}
           {% include ref-to-link.html ref=defn_ref %}
           <!-- {{include.items['$ref']}} -->

@@ -133,7 +133,7 @@
       "required": ["title"],
       "properties": {
         "active_manifest": {
-          "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest [`ManifestStore`]: crate::ManifestStore",
+          "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest\n\n[`ManifestStore`]: crate::ManifestStore",
           "type": ["string", "null"]
         },
         "data": {
@@ -184,7 +184,7 @@
           ]
         },
         "metadata": {
-          "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Manifest",
+          "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Metadata",
           "anyOf": [
             {
               "$ref": "#/definitions/Metadata"

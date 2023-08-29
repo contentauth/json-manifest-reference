@@ -1,6 +1,6 @@
 ## Properties
 
-{% assign schema=site.data.ManifestStore_schema_processed %}
+{% assign schema=site.data.ManifestStore_schema %}
 {{schema.description}}.
 
 <table>
@@ -70,6 +70,8 @@ All of:
 <!-- Definitions reference -->
 {% for term in schema.definitions %}
 
+<button class="top-scroll-btn" title="Go to top">Scroll To Top</button>
+
 ### {{term.first}}
 
 {{term.last.description}}
@@ -107,9 +109,7 @@ All of:
 </td>
 
 <!-- Description -->
-<td>
-{% include description.html str=property.last.description %}
-</td>
+<td>{%- include description.html str=property.last.description -%}</td>
 
 <td> <!-- Required? -->
 {% include required.html prop=property.first required_list=entity.required %}
