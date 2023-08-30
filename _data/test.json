@@ -1,5 +1,0 @@
-"crates": [
-  "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest [`ManifestStore`]: crate::ManifestStore",
-  "A [`ManifestStore`] from the source asset extracted as a binary C2PA blob.\n\n[`ManifestStore`]: crate::ManifestStore",
-  "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Manifest"
-]
