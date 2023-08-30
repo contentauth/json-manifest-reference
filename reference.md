@@ -1,7 +1,9 @@
-## Properties
+## ManifestStore
 
 {% assign schema=site.data.ManifestStore_schema %}
 {{schema.description}}.
+
+### Properties
 
 <table>
 <thead><tr>

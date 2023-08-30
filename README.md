@@ -34,11 +34,11 @@ However, if you see a yellow box that says "There is a problem with the site" an
 
 ## Post-processing notes
 
-Still WIP.
+JavaScript code converts crate links to anchor links.
 
-`crate::Manifest` -> `https://docs.rs/c2pa/latest/c2pa/struct.Manifest.html`
+`crate::Manifest` -> `#manifest`
 
-`crate::ManifestStore` -> `https://docs.rs/c2pa/latest/c2pa/struct.ManifestStore.html`
+`crate::ManifestStore` -> `#manifeststore`
 
 
 ## Issues with schema JSON

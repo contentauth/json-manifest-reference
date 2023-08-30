@@ -1,9 +1,9 @@
-title: C2PA Manifest reference
+title: C2PA manifest reference
 url:
 children:
 
   - title: Manifest store reference
-    url: reference
+    url: manifest-reference
     children:
 
     - title: CAI styling

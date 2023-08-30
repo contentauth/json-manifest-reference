@@ -1,6 +1,6 @@
 ---
 title: CAI manifest store reference
-permalink: reference
+permalink: manifest-reference
 layout: page
 toc: false
 ---
