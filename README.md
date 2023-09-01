@@ -34,19 +34,12 @@ However, if you see a yellow box that says "There is a problem with the site" an
 
 ## Post-processing notes
 
-JavaScript code converts crate links to anchor links.
+JavaScript code converts crate links to anchor links.  For example:
 
 `crate::Manifest` -> `#manifest`
 
 `crate::ManifestStore` -> `#manifeststore`
 
 
-## Issues with schema JSON
 
-- Many missing descriptions
-- `Ingredient.metadata` property description references `Metadata` but provides link for `crate::Manifest`:
-  ```
-  Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Manifest
-  ```
-- Some descriptions have [reference-style links](https://www.markdownguide.org/basic-syntax/#reference-style-links) without corresponding shortlink URLs; e.g. markdown like `[ManifestStore]` with no `crate::` ref or URL.
-- Some descriptions have [reference-style links](https://www.markdownguide.org/basic-syntax/#reference-style-links) that need to be on separate lines but are not.
+

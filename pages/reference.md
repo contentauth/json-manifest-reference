@@ -34,10 +34,10 @@
 </td>
 
 <!-- Description -->
-<td>{{property.last.description}}.
+<td>{{property.last.description|markdownify}}
 {% if property.last.additionalProperties %}
   {% assign href=property.last.additionalProperties.first[1] %}
-  See {% include ref-to-link.html ref=href %}.
+  See {% include ref-to-link.html ref=href %}
 {% endif %}
 </td>
 
@@ -105,17 +105,9 @@ NOTE: `additionalProperties` = `{{entity.additionalProperties}}`
 <tr>
 <td>{{property.first}}</td>
 
-<!-- Type <code>{{property.last.type}} {{property.last.items}}</code> <br/> -->
-<td> {% include type.html prop_info=property.last %} 
-{% comment %}
-{% if property.last.anyOf %}
-Any of:
-{% include array-of-objs.html a=property.last.anyOf %}
-{% elsif property.last.allOf %}
-All of:
-{% include array-of-objs.html a=property.last.allOf %}
-{% endif %}
-{% endcomment %}
+<!-- Type  -->
+<td> 
+{% include type.html prop_info=property.last %} 
 </td>
 
 <!-- Description -->
@@ -126,26 +118,32 @@ All of:
 </td>
 
 <td> <!-- Default Value -->
-{% if property.last.default %} {{property.last.default}} {% else %} N/A {%endif%}
+{% if property.last.default == empty %} Empty array {%endif%}
+{% if property.last.default %} 
+  {{property.last.default}} 
+{% else %} 
+  N/A 
+{%endif%}
 </td>
 </tr>
 {% endfor %}
 </tbody></table>
 
-{% elsif entity.enum %} <!-- Not an object but an enum -->
-
+<!-- Not an object but an enum -->
+{% elsif entity.enum %} 
 A {{entity.type}} that is one of the following:
 {% for type in entity.enum %}
 - "{{type}}"
 {%- endfor -%}
 
-{% elsif entity.type=='string' %} <!-- Not an object or enum, but a string -->
-
+<!-- Not an object or enum, but a string -->
+{% elsif entity.type=='string' %} 
 A string.
 
 {% include description.html str=term.last.description %}
 
-{%- elsif entity.anyOf -%} <!-- Not an object, enum, or string, but 'anyOf' -->
+<!-- Not an object, enum, or string, but 'anyOf' -->
+{%- elsif entity.anyOf -%} 
 
 {% include description.html str=entity.last.description %}
 

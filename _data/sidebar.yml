@@ -9,6 +9,8 @@ children:
     - title: CAI styling
       url: reference-cai
 
+    - title: Review questions
+      url: review-questions
 
   - title: ManifestStore JSON schema
     url: schema
