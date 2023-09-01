@@ -5,7 +5,10 @@ layout: page
 toc: false
 ---
 
-This is an experimental site. It is an incomplete work in progress and may not be accurate.
+This is incomplete work in progress and is not yet accurate or complete. DO NOT REFER TO IT YET!
 {: .warning}
 
-{% include_relative reference.md %}
+Doc notes from `ManifestStore_schema_annotated.json` are highlighted below.
+{: .comment}
+
+{% include_relative reference.md comments="true" %}

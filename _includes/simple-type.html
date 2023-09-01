@@ -1,0 +1,42 @@
+{% if include.obj.type == "string" %} 
+  String
+
+{% elsif include.obj.type == "number" %}
+  Number
+
+{% elsif include.obj.type == "integer" %}
+  Integer
+  {% if include.obj.format %} <br/>Format: {{obj.format}} {% endif %}
+  {% if include.obj.minimum %} <br/>Minimum: {{obj.minimum}} {% endif %}
+
+{% elsif include.obj.type == "boolean" %}
+  Boolean
+
+{% elsif include.obj.type == "null" %}
+  Null
+
+{% elsif include.obj.type == "object" %}
+  It's an object...
+
+{% elsif include.obj.type == "array" %}
+  {% assign array_obj = include.obj.items.first[1] %}
+  <!-- {% comment %} ZERO = include.obj.items.first[0] ... ONE = include.obj.items.first[1] <br/>  {% endcomment %} -->
+  An array of {% include ref-to-link.html ref=array_obj %}
+
+{% endif %}
+
+{% comment %}
+{% if include.obj.items.first %} <!-- items is an array -->
+{% if include.obj.items['$ref'] %} <!-- JSON schema ref to anchor link -->
+  {% assign defn_ref=include.items['$ref'] %}
+  {% include ref-to-link.html ref=defn_ref %}
+  <!-- {{include.items['$ref']}} -->
+{%- else -%}
+  {{include.obj.items}}
+{%- endif -%}
+
+{% else %} <!-- items is not an array -->
+<!-- THIS IS A WEIRD CASE {{include.items}}-->
+{% endif %}
+{% endcomment %}
+

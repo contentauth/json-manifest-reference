@@ -383,3 +383,7 @@ body:not(.is-scrolling) .navbar {
 [data-theme='dark'] .DocSearch {
   --docsearch-highlight-color: var(--cai-color-primary-dark);
 }
+
+/* Added by Rand */
+
+.comment { font-style: italic;}

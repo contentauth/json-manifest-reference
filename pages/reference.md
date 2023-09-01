@@ -1,6 +1,11 @@
+{% if include.comments %}
+{% assign schema = site.data.ManifestStore_schema_annotated %}
+{% else %}
+{% assign schema = site.data.ManifestStore_schema %}
+{% endif %}
+
 ## ManifestStore
 
-{% assign schema=site.data.ManifestStore_schema %}
 {{schema.description}}.
 
 ### Properties
@@ -20,16 +25,15 @@
 <td>{{property.first}}</td>
 
 <!-- Type -->
-<td>{% include type.html type=property.last.type items=property.last.items %}
-{% if property.last.anyOf %}
-Any of:
-{% include array-of-objs.html a=property.last.anyOf %}
-{% elsif property.last.allOf %}
-All of:
-{% include array-of-objs.html a=property.last.allOf %}
+<td>
+{% if property.last.type=="object" %} 
+  Object 
+{% else %}
+  {% include type.html prop_info=property.last %}
 {% endif %}
 </td>
 
+<!-- Description -->
 <td>{{property.last.description}}.
 {% if property.last.additionalProperties %}
   {% assign href=property.last.additionalProperties.first[1] %}
@@ -72,7 +76,9 @@ All of:
 <!-- Definitions reference -->
 {% for term in schema.definitions %}
 
+{% if include.layout=="cai" %}
 <button class="top-scroll-btn" title="Go to top">Scroll To Top</button>
+{% endif %}
 
 ### {{term.first}}
 
@@ -99,8 +105,9 @@ NOTE: `additionalProperties` = `{{entity.additionalProperties}}`
 <tr>
 <td>{{property.first}}</td>
 
-<!-- Type -->
-<td>{% include type.html type=property.last.type items=property.last.items %}
+<!-- Type <code>{{property.last.type}} {{property.last.items}}</code> <br/> -->
+<td> {% include type.html prop_info=property.last %} 
+{% comment %}
 {% if property.last.anyOf %}
 Any of:
 {% include array-of-objs.html a=property.last.anyOf %}
@@ -108,6 +115,7 @@ Any of:
 All of:
 {% include array-of-objs.html a=property.last.allOf %}
 {% endif %}
+{% endcomment %}
 </td>
 
 <!-- Description -->
@@ -141,7 +149,11 @@ A string.
 
 {% include description.html str=entity.last.description %}
 
-{%- if entity.type -%}A {{entity.type}} that is any {%- else -%} Any {% endif %} of the following:
+{%- if entity.type -%}A {{entity.type}} that is any of:
+
+{% else %} 
+<p>Any of the following:</p>
+{% endif %} 
 
 <ul>{% for i in entity.anyOf %}
 

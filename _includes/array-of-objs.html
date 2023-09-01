@@ -4,7 +4,7 @@
     {% assign xref=i.first[1] %}
     <li>{% include ref-to-link.html ref=xref %}</li>
   {% else %}
-<li>{{i.first[0]}}: {{i.first[1]}}</li>
+<li>{{i.first[1]}}</li>
   {% endif %}
 {% endfor %}
 </ul>
