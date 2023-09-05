@@ -253,11 +253,12 @@
             }
           },
           "claim_generator": {
-            "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax\n\n What does it mean to have `additionalProperties` here? Link to <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent>?\n{: .comment}",
+            "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax\n\n Link to <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent>?\n{: .comment}",
             "default": "c2pa/0.25.2",
             "type": "string"
           },
           "claim_generator_hints": {
+            "description": "_No description provided_.\n What does it mean to have `additionalProperties` here?\n{: .comment}",
             "type": ["object", "null"],
             "additionalProperties": true
           },
