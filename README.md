@@ -1,14 +1,19 @@
-# c2pa-manifest-reference
+# json-manifest-reference
 
 This is a reference for the [Content Authenticity Initiative (CAI)](https://contentauthenticity.org/) manifest store JSON structure.  It is based on the definition of the manifest store in the [C2PA technical specification](https://c2pa.org/specifications/specifications/1.3/specs/C2PA_Specification.html), but is not exactly the same.  The C2PA specification defines a binary structure, but [this reference](reference) is for the JSON structure that the [CAI open source SDKs](https://opensource.contentauthenticity.org/docs/introduction) use to work with manifests.
 
-See <https://contentauth.github.io/c2pa-manifest-reference/>.
+See the rendered site at <https://contentauth.github.io/json-manifest-reference/manifest-reference>.
+
+## References
+
+- [Understanding JSON schema](https://json-schema.org/understanding-json-schema/index.html): Good explanation of JSON schema.
+- [Jekyll documentation](https://jekyllrb.com/docs/): This repo uses Jekyll and Liquid.
+- [Liquid template language](https://shopify.github.io/liquid/)
 
 ## How to update the JSON schema
 
 If you don't need to preview (for example if you change is trivial), create and use a branch and then just open a PR.
-
-If you're making more extensive changes and want to preview the rendered changes, create and use a fork.  
+If you're making more extensive changes and want to preview the rendered changes, create a PR using a fork.  
 
 To update the schema and see a preview:
 
@@ -25,7 +30,7 @@ It's possible to make a change to a page (such as a malformed Liquid directive) 
 
 To check site status, go to he **Pages** settings page for your fork. If you see this:
 
-**Your site is live at https://your_username.github.io/c2pa-manifest-reference/**
+**Your site is live at https://your_username.github.io/json-manifest-reference/**
 
 Then everything's good!
 
