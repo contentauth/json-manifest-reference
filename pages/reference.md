@@ -28,8 +28,10 @@
 <td>
 {% if property.last.type=="object" %} 
   Object 
+
 {% else %}
   {% include type.html prop_info=property.last %}
+
 {% endif %}
 </td>
 

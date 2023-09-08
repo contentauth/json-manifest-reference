@@ -2,32 +2,23 @@
 
 {% assign obj = include.prop_info %}
 
-{% comment %} <!-- 
-<em>
-prop_info = {{obj | inspect }} <br/>
-type = {{obj.type }} <br/>
-items = {{obj.items | inspect }} <br/>
-</em>
- --> {% endcomment %}
-
 {% if obj.anyOf %}
-  Any of: 
-  {% include array-of-objs.html a=obj.anyOf %} 
-
-<!-- {% comment %} 
+  {% include array-of-objs.html a=obj.anyOf %}
+<!-- {% comment %} ...Need to find if one of the anyOf array elements is "type": "null"
 This assumes the 'allOf' property is a single-element array containing 
 an object like {"$ref"=>"#/definitions/xyz"}. 
 {% endcomment %} -->
+
 {% elsif obj.allOf %}
   {% assign object_ref = obj.allOf[0]['$ref'] %}
-  A {% include ref-to-link.html ref=object_ref %} object.
+  {% include ref-to-link.html ref=object_ref %}
 
 <!-- obj.type is an array of possible types-->
 {% elsif obj.type.first %} 
-  Either
+  <!-- Either -->
   {% for x in obj.type %}
     {% if x=="array" %} 
-      an array of 
+      Array of 
       {% assign ref = obj.items['$ref'] %}
 
       {% if ref %}
@@ -43,10 +34,12 @@ an object like {"$ref"=>"#/definitions/xyz"}.
       {% endif %}
 
     {% else %}
-      {{x|capitalize}} <!-- {% comment %} Assumes that the type is not another array or object {% endcomment %} -->
+      {% unless x=="null" %}
+        {{x|capitalize}} <!-- {% comment %} Assumes that the type is not another array or object {% endcomment %} -->
+      {% endunless %}
 
     {% endif %}
-    {% unless forloop.last %} or {% endunless %}
+    <!-- {% unless forloop.last %} or {% endunless %} -->
   {% endfor %}
 
 {% else %} <!-- {% comment %}  obj.type is NOT an array of possible types so it's a simple type {% endcomment %}  -->
