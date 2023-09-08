@@ -40,6 +40,15 @@ JavaScript code converts crate links to anchor links.  For example:
 
 `crate::ManifestStore` -> `#manifeststore`
 
+## TO DO 
+
+Cover all the cases for stuff like
+
+```
+"type": "integer",
+"format": "uint8",
+"minimum": 0.0
+```
 
 
 
