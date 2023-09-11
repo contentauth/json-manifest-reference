@@ -6,10 +6,14 @@ children:
     url: manifest-reference
     children:
 
-    - title: CAI styling
+    - title: Referece with CAI styling
       url: reference-cai
 
-    - title: Review questions
+  - title: Reference with comments
+    url: annotated-manifest-reference
+    children:
+
+    - title: Additional questions
       url: review-questions
 
   - title: ManifestStore JSON schema

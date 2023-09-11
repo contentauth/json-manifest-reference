@@ -26,38 +26,6 @@ Some descriptions have reference-style links that need to be on separate lines b
 
 > Reference-style link needs to be on separate line. 
 
-### anyOf properties
-
-For properties that have `anyOf` instead of a `type`, we currently document them as "Any of..." Can we document them as "either/or" or is there a distincion?  This is also how we document properties that have a `type` that is an array (not a `type` that is the string "array"). 
-
-For example:
-
-```js
-"Ingredient": {
-    ...
-    "properties": {
-    ...
-    "data": {
-        "description": "A reference to the actual data of the ingredient.",
-        "anyOf": [
-        {
-            "$ref": "#/definitions/ResourceRef"
-        },
-        {
-            "type": "null"
-        }
-        ]
-    },
-    ...
-```
-
-The Type documentation for `data` property currently says: 
-
-> Any of:
-> - [ResourceRef](manifest-reference#resourceref)
-> - null
-
-But it seems clearer to say "Either a ResourceRef or null" if that's accurate.
 
 
 
