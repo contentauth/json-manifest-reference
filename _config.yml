@@ -43,6 +43,6 @@ defaults:
 sidebars:
 - home_sidebar
 
-url: https://contentauth.github.io//json-manifest-reference
+url: https://contentauth.github.io/json-manifest-reference
 
 # baseurl: /
