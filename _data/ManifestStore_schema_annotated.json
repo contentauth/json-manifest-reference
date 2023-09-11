@@ -6,11 +6,11 @@
     "required": ["manifests"],
     "properties": {
       "active_manifest": {
-        "description": "A label for the active (most recent) manifest in the store",
+        "description": "A label for the active (most recent) manifest in the store\n\n Does this string need to have some specific value, e.g. the value of the `label` property of the `manifest` in question? \n{: .comment}",
         "type": ["string", "null"]
       },
       "manifests": {
-        "description": "A HashMap of Manifests\n\n What does it mean to have `additionalProperties` here? \n{: .comment}",
+        "description": "A HashMap of Manifests\n\n Perhaps note that the additional properties must be manifest objects? \n{: .comment}",
         "type": "object",
         "additionalProperties": {
           "$ref": "#/definitions/Manifest"
@@ -529,7 +529,7 @@
         ]
       },
       "ValidationStatus": {
-        "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.\n\n Update link to spec to v1.3. \n{: .comment}",
+        "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.\n\n Maybe \"struct\" is not the best word to use here? Would \"object\" be the right JSON term? \n Update link to spec to v1.3. \n{: .comment}",
         "type": "object",
         "required": ["code"],
         "properties": {
