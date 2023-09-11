@@ -355,7 +355,7 @@
             ]
           },
           "instance": {
-            "description": "There can be more than one assertion for any label",
+            "description": "There can be more than one assertion for any label\n\n So is this property just a counter? How do you know what value to use here?\n{: .comment} ",
             "type": ["integer", "null"],
             "format": "uint",
             "minimum": 0.0

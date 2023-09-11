@@ -3,6 +3,9 @@
 
 {% elsif include.obj.type == "number" %}
   Number
+  {% if include.obj.format %}
+    FORMAT = {{include.obj.format}}
+  {%endif%}
 
 {% elsif include.obj.type == "integer" %}
   Integer

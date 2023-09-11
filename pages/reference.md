@@ -88,7 +88,7 @@
 
 {% assign entity = term.last %}
 {% if entity.additionalProperties %}
-NOTE: `additionalProperties` = `{{entity.additionalProperties}}`
+NOTE: This object can have any number of additional user-defined properties. 
 {% endif %}
 
 {% if entity.type=="object" and entity.properties -%}
