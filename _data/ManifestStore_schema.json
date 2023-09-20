@@ -3,11 +3,16 @@
   "title": "ManifestStore",
   "description": "A Container for a set of Manifests and a ValidationStatus list",
   "type": "object",
-  "required": ["manifests"],
+  "required": [
+    "manifests"
+  ],
   "properties": {
     "active_manifest": {
       "description": "A label for the active (most recent) manifest in the store",
-      "type": ["string", "null"]
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "manifests": {
       "description": "A HashMap of Manifests",
@@ -18,7 +23,10 @@
     },
     "validation_status": {
       "description": "ValidationStatus generated when loading the ManifestStore from an asset",
-      "type": ["array", "null"],
+      "type": [
+        "array",
+        "null"
+      ],
       "items": {
         "$ref": "#/definitions/ValidationStatus"
       }
@@ -31,33 +39,46 @@
       "properties": {
         "credentials": {
           "description": "List of references to W3C Verifiable Credentials.",
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/HashedUri"
           }
         },
         "identifier": {
           "description": "An identifier for a human actor, used when the \"type\" is `humanEntry.identified`.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },
     "AssetType": {
       "type": "object",
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "type": {
           "type": "string"
         },
         "version": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },
     "ClaimGeneratorInfo": {
       "description": "Description of the claim generator, or the software used in generating the claim.\n\nThis structure is also used for actions softwareAgent",
       "type": "object",
-      "required": ["name"],
+      "required": [
+        "name"
+      ],
       "properties": {
         "icon": {
           "description": "hashed URI to the icon (either embedded or remote)",
@@ -76,7 +97,10 @@
         },
         "version": {
           "description": "A human readable string of the product's version",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       },
       "additionalProperties": true
@@ -84,18 +108,26 @@
     "DataSource": {
       "description": "A description of the source for assertion data",
       "type": "object",
-      "required": ["type"],
+      "required": [
+        "type"
+      ],
       "properties": {
         "actors": {
           "description": "A list of [`Actor`]s associated with this source.",
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/Actor"
           }
         },
         "details": {
           "description": "A human-readable string giving details about the source of the assertion data.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "type": {
           "description": "A value from among the enumerated list indicating the source of the assertion.",
@@ -104,17 +136,26 @@
       }
     },
     "DateT": {
-      "type": "string"
+      "type": "string",
+      "description": "DateT store date strings in CBOR with datetime Tag(0) This helper class should be used where the C2PA spec specifies a tagged CBOR datatime."
     },
     "HashedUri": {
       "description": "Hashed Uri structure as defined by C2PA spec It is annotated to produce the correctly tagged cbor serialization",
       "type": "object",
-      "required": ["hash", "url"],
+      "required": [
+        "hash",
+        "url"
+      ],
       "properties": {
         "alg": {
-          "type": ["string", "null"]
+          "description": "hash algorithm used (\"sha256\", \"sha384\", \"sha512\")",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "hash": {
+          "description": "\"alg\" hash of stored as cbor byte string",
           "type": "array",
           "items": {
             "type": "integer",
@@ -123,6 +164,7 @@
           }
         },
         "url": {
+          "description": "URI stored as tagged cbor",
           "type": "string"
         }
       }
@@ -130,11 +172,16 @@
     "Ingredient": {
       "description": "An `Ingredient` is any external asset that has been used in the creation of an image.",
       "type": "object",
-      "required": ["title"],
+      "required": [
+        "title"
+      ],
       "properties": {
         "active_manifest": {
-          "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest\n\n[`ManifestStore`]: crate::ManifestStore",
-          "type": ["string", "null"]
+          "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest [`ManifestStore`]: crate::ManifestStore",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "data": {
           "description": "A reference to the actual data of the ingredient.",
@@ -149,11 +196,17 @@
         },
         "description": {
           "description": "Additional description of the ingredient.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "document_id": {
           "description": "Document ID from `xmpMM:DocumentID` in XMP metadata.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "format": {
           "description": "The format of the source file as a MIME type.",
@@ -162,15 +215,24 @@
         },
         "hash": {
           "description": "An optional hash of the asset to prevent duplicates.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "informational_URI": {
           "description": "URI to an informational page about the ingredient or its data.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "instance_id": {
           "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "manifest_data": {
           "description": "A [`ManifestStore`] from the source asset extracted as a binary C2PA blob.\n\n[`ManifestStore`]: crate::ManifestStore",
@@ -184,7 +246,7 @@
           ]
         },
         "metadata": {
-          "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Metadata",
+          "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Manifest`]: crate::Manifest",
           "anyOf": [
             {
               "$ref": "#/definitions/Metadata"
@@ -196,7 +258,10 @@
         },
         "provenance": {
           "description": "URI from `dcterms:provenance` in XMP metadata.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "relationship": {
           "description": "Set to `ParentOf` if this is the parent ingredient.\n\nThere can only be one parent ingredient in the ingredients.",
@@ -232,7 +297,10 @@
         },
         "validation_status": {
           "description": "Validation results.",
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/ValidationStatus"
           }
@@ -257,18 +325,27 @@
           "type": "string"
         },
         "claim_generator_hints": {
-          "type": ["object", "null"],
+          "type": [
+            "object",
+            "null"
+          ],
           "additionalProperties": true
         },
         "claim_generator_info": {
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/ClaimGeneratorInfo"
           }
         },
         "credentials": {
           "description": "A List of verified credentials",
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": true
         },
         "format": {
@@ -286,15 +363,21 @@
         },
         "instance_id": {
           "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-          "default": "xmp:iid:c1fcfabf-75b8-49ac-9032-34c7c6463098",
+          "default": "xmp:iid:3b9389f3-0bcb-4554-9a3c-1ab73ac5b81c",
           "type": "string"
         },
         "label": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "redactions": {
           "description": "A list of redactions - URIs to a redacted assertions",
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "type": "string"
           }
@@ -331,18 +414,27 @@
         },
         "title": {
           "description": "A human-readable title, generally source filename.",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "vendor": {
           "description": "Optional prefix added to the generated Manifest Label This is typically Internet domain name for the vendor (i.e. `adobe`)",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },
     "ManifestAssertion": {
       "description": "A labeled container for an Assertion value in a Manifest",
       "type": "object",
-      "required": ["data", "label"],
+      "required": [
+        "data",
+        "label"
+      ],
       "properties": {
         "data": {
           "description": "The data of the assertion as Value",
@@ -354,7 +446,10 @@
         },
         "instance": {
           "description": "There can be more than one assertion for any label",
-          "type": ["integer", "null"],
+          "type": [
+            "integer",
+            "null"
+          ],
           "format": "uint",
           "minimum": 0.0
         },
@@ -378,7 +473,12 @@
     "ManifestAssertionKind": {
       "description": "Assertions in C2PA can be stored in several formats",
       "type": "string",
-      "enum": ["Cbor", "Json", "Binary", "Uri"]
+      "enum": [
+        "Cbor",
+        "Json",
+        "Binary",
+        "Uri"
+      ]
     },
     "ManifestData": {
       "anyOf": [
@@ -428,7 +528,10 @@
           ]
         },
         "reviewRatings": {
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/ReviewRating"
           }
@@ -438,15 +541,25 @@
     },
     "Relationship": {
       "type": "string",
-      "enum": ["parentOf", "componentOf", "inputTo"]
+      "enum": [
+        "parentOf",
+        "componentOf",
+        "inputTo"
+      ]
     },
     "ResourceRef": {
       "description": "A reference to a resource to be used in JSON serialization",
       "type": "object",
-      "required": ["format", "identifier"],
+      "required": [
+        "format",
+        "identifier"
+      ],
       "properties": {
         "data_types": {
-          "type": ["array", "null"],
+          "type": [
+            "array",
+            "null"
+          ],
           "items": {
             "$ref": "#/definitions/AssetType"
           }
@@ -462,10 +575,15 @@
     "ResourceStore": {
       "description": "Resource store to contain binary objects referenced from JSON serializable structures",
       "type": "object",
-      "required": ["resources"],
+      "required": [
+        "resources"
+      ],
       "properties": {
         "base_path": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "resources": {
           "type": "object",
@@ -483,10 +601,16 @@
     "ReviewRating": {
       "description": "A rating on an [`Assertion`].\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_claim_review>.",
       "type": "object",
-      "required": ["explanation", "value"],
+      "required": [
+        "explanation",
+        "value"
+      ],
       "properties": {
         "code": {
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "explanation": {
           "type": "string"
@@ -504,15 +628,24 @@
       "properties": {
         "cert_serial_number": {
           "description": "The serial number of the certificate",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "issuer": {
           "description": "human readable issuing authority for this signature",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "time": {
           "description": "the time the signature was created",
-          "type": ["string", "null"]
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     },
@@ -529,16 +662,27 @@
     "ValidationStatus": {
       "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.",
       "type": "object",
-      "required": ["code"],
+      "required": [
+        "code"
+      ],
       "properties": {
         "code": {
+          "description": "Validation status code.",
           "type": "string"
         },
         "explanation": {
-          "type": ["string", "null"]
+          "description": "Human-readable description of the validation that was performed.",
+          "type": [
+            "string",
+            "null"
+          ]
         },
         "url": {
-          "type": ["string", "null"]
+          "description": "Internal JUMBF reference to the entity that was validated.",
+          "type": [
+            "string",
+            "null"
+          ]
         }
       }
     }

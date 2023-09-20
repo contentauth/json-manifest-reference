@@ -84,14 +84,11 @@
 
 ### {{term.first}}
 
-{{term.last.description}}
-
 {% assign entity = term.last %}
-{% if entity.additionalProperties %}
-NOTE: This object can have any number of additional user-defined properties. 
-{% endif %}
 
 {% if entity.type=="object" and entity.properties -%}
+
+{{term.last.description}}
 
 <table style="margin-top: 10px;">
 <thead><tr>
@@ -131,6 +128,10 @@ NOTE: This object can have any number of additional user-defined properties.
 {% endfor %}
 </tbody></table>
 
+{% if entity.additionalProperties %}
+NOTE: This object can have any number of additional user-defined properties. 
+{% endif %}
+
 <!-- Not an object but an enum -->
 {% elsif entity.enum %} 
 A {{entity.type}} that is one of the following:
@@ -142,7 +143,7 @@ A {{entity.type}} that is one of the following:
 {% elsif entity.type=='string' %} 
 A string.
 
-{% include description.html str=term.last.description %}
+{{term.last.description}}
 
 <!-- Not an object, enum, or string, but 'anyOf' -->
 {%- elsif entity.anyOf -%} 

@@ -104,7 +104,8 @@
         }
       },
       "DateT": {
-        "type": "string"
+        "type": "string",
+        "description": "DateT store date strings in CBOR with datetime Tag(0) This helper class should be used where the C2PA spec specifies a tagged CBOR datatime"        
       },
       "HashedUri": {
         "description": "Hashed Uri structure as defined by C2PA spec It is annotated to produce the correctly tagged cbor serialization\n\n Link to relevant section of spec.  Spelling/capitalization issues. \n{: .comment}",
