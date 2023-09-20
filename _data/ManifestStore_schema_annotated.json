@@ -134,7 +134,7 @@
         "required": ["title"],
         "properties": {
           "active_manifest": {
-            "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest\n\n[`ManifestStore`]: crate::ManifestStore",
+            "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest [`ManifestStore`]: crate::ManifestStore\n\nShort links for reference-style links must be separated by newline.\n{: .comment}",
             "type": ["string", "null"]
           },
           "data": {
