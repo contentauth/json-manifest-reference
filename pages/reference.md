@@ -1,7 +1,9 @@
 {% if include.comments %}
-{% assign schema = site.data.ManifestStore_schema_annotated %}
+  {% assign schema = site.data.ManifestStore_schema_annotated %}
+{% else if include.edits %}
+  {% assign schema = site.data.ManifestStore_schema_edited %}
 {% else %}
-{% assign schema = site.data.ManifestStore_schema %}
+  {% assign schema = site.data.ManifestStore_schema %}
 {% endif %}
 
 ## ManifestStore

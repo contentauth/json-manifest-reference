@@ -1,0 +1,647 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ManifestStore",
+  "description": "A Container for a set of Manifests and a ValidationStatus list",
+  "type": "object",
+  "required": [
+    "manifests"
+  ],
+  "properties": {
+    "active_manifest": {
+      "description": "A label for the active (most recent) manifest in the store",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "manifests": {
+      "description": "A HashMap of Manifests",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Manifest"
+      }
+    },
+    "validation_status": {
+      "description": "ValidationStatus generated when loading the ManifestStore from an asset",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "$ref": "#/definitions/ValidationStatus"
+      }
+    }
+  },
+  "definitions": {
+    "Actor": {
+      "description": "Identifies a person responsible for an action.",
+      "type": "object",
+      "properties": {
+        "credentials": {
+          "description": "List of references to W3C Verifiable Credentials.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/HashedUri"
+          }
+        },
+        "identifier": {
+          "description": "An identifier for a human actor, used when the \"type\" is `humanEntry.identified`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "AssetType": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "version": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ClaimGeneratorInfo": {
+      "description": "Description of the claim generator, or the software used in generating the claim.\n\nThis structure is also used for actions softwareAgent",
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "icon": {
+          "description": "hashed URI to the icon (either embedded or remote)",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/UriOrResource"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "description": "A human readable string naming the claim_generator",
+          "type": "string"
+        },
+        "version": {
+          "description": "A human readable string of the product's version",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "DataSource": {
+      "description": "A description of the source for assertion data",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "actors": {
+          "description": "A list of [`Actor`]s associated with this source.\n\n[`Actor`]: crate::Actor",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Actor"
+          }
+        },
+        "details": {
+          "description": "A human-readable string giving details about the source of the assertion data.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "description": "A value from among the enumerated list indicating the source of the assertion.",
+          "type": "string"
+        }
+      }
+    },
+    "DateT": {
+      "type": "string",
+      "description": "DateT store date strings in CBOR with datetime Tag(0) This helper class should be used where the C2PA spec specifies a tagged CBOR datatime."
+    },
+    "HashedUri": {
+      "description": "Hashed Uri structure as defined by C2PA spec It is annotated to produce the correctly tagged cbor serialization",
+      "type": "object",
+      "required": [
+        "hash",
+        "url"
+      ],
+      "properties": {
+        "alg": {
+          "description": "hash algorithm used (\"sha256\", \"sha384\", \"sha512\")",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "hash": {
+          "description": "\"alg\" hash of stored as cbor byte string",
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        },
+        "url": {
+          "description": "URI stored as tagged cbor",
+          "type": "string"
+        }
+      }
+    },
+    "Ingredient": {
+      "description": "An `Ingredient` is any external asset that has been used in the creation of an image.",
+      "type": "object",
+      "required": [
+        "title"
+      ],
+      "properties": {
+        "active_manifest": {
+          "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest \n[`ManifestStore`]: crate::ManifestStore",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "data": {
+          "description": "A reference to the actual data of the ingredient.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ResourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "description": {
+          "description": "Additional description of the ingredient.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "document_id": {
+          "description": "Document ID from `xmpMM:DocumentID` in XMP metadata.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "format": {
+          "description": "The format of the source file as a MIME type.",
+          "default": "application/octet-stream",
+          "type": "string"
+        },
+        "hash": {
+          "description": "An optional hash of the asset to prevent duplicates.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "informational_URI": {
+          "description": "URI to an informational page about the ingredient or its data.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "instance_id": {
+          "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "manifest_data": {
+          "description": "A [`ManifestStore`] from the source asset extracted as a binary C2PA blob.\n\n[`ManifestStore`]: crate::ManifestStore",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ResourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "metadata": {
+          "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Metadata`]: crate::Metadata",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Metadata"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "provenance": {
+          "description": "URI from `dcterms:provenance` in XMP metadata.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "relationship": {
+          "description": "Set to `ParentOf` if this is the parent ingredient.\n\nThere can only be one parent ingredient in the ingredients.",
+          "default": "componentOf",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Relationship"
+            }
+          ]
+        },
+        "thumbnail": {
+          "description": "A thumbnail image capturing the visual state at the time of import.\n\nA tuple of thumbnail MIME format (i.e. `image/jpeg`) and binary bits of the image.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ResourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "description": "A human-readable title, generally source filename.",
+          "type": "string"
+        },
+        "validation_status": {
+          "description": "Validation results.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ValidationStatus"
+          }
+        }
+      }
+    },
+    "Manifest": {
+      "description": "A Manifest represents all the information in a c2pa manifest",
+      "type": "object",
+      "properties": {
+        "assertions": {
+          "description": "A list of assertions",
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ManifestAssertion"
+          }
+        },
+        "claim_generator": {
+          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax",
+          "default": "c2pa/0.25.2",
+          "type": "string"
+        },
+        "claim_generator_hints": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": true
+        },
+        "claim_generator_info": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ClaimGeneratorInfo"
+          }
+        },
+        "credentials": {
+          "description": "A List of verified credentials",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": true
+        },
+        "format": {
+          "description": "The format of the source file as a MIME type.",
+          "default": "application/octet-stream",
+          "type": "string"
+        },
+        "ingredients": {
+          "description": "A List of ingredients",
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ingredient"
+          }
+        },
+        "instance_id": {
+          "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
+          "default": "xmp:iid:3b9389f3-0bcb-4554-9a3c-1ab73ac5b81c",
+          "type": "string"
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "redactions": {
+          "description": "A list of redactions - URIs to a redacted assertions",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "signature_info": {
+          "description": "Signature data (only used for reporting)",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SignatureInfo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "thumbnail": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ResourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "description": "A human-readable title, generally source filename.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vendor": {
+          "description": "Optional prefix added to the generated Manifest Label This is typically Internet domain name for the vendor (i.e. `adobe`)",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ManifestAssertion": {
+      "description": "A labeled container for an Assertion value in a Manifest",
+      "type": "object",
+      "required": [
+        "data",
+        "label"
+      ],
+      "properties": {
+        "data": {
+          "description": "The data of the assertion as Value",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ManifestData"
+            }
+          ]
+        },
+        "instance": {
+          "description": "There can be more than one assertion for any label",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "kind": {
+          "description": "The [`ManifestAssertionKind`] for this assertion (as stored in c2pa content).\n\n[`ManifestAssertionKind`]: crate::ManifestAssertionKind  ",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ManifestAssertionKind"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "label": {
+          "description": "An assertion label in reverse domain format",
+          "type": "string"
+        }
+      }
+    },
+    "ManifestAssertionKind": {
+      "description": "Assertions in C2PA can be stored in several formats",
+      "type": "string",
+      "enum": [
+        "Cbor",
+        "Json",
+        "Binary",
+        "Uri"
+      ]
+    },
+    "ManifestData": {
+      "anyOf": [
+        true,
+        {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        }
+      ]
+    },
+    "Metadata": {
+      "description": "The Metadata structure can be used as part of other assertions or on its own to reference others",
+      "type": "object",
+      "properties": {
+        "data_source": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DataSource"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "dateTime": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/DateT"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reference": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/HashedUri"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "reviewRatings": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ReviewRating"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "Relationship": {
+      "type": "string",
+      "enum": [
+        "parentOf",
+        "componentOf",
+        "inputTo"
+      ]
+    },
+    "ResourceRef": {
+      "description": "A reference to a resource to be used in JSON serialization",
+      "type": "object",
+      "required": [
+        "format",
+        "identifier"
+      ],
+      "properties": {
+        "data_types": {
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/AssetType"
+          }
+        },
+        "format": {
+          "type": "string"
+        },
+        "identifier": {
+          "type": "string"
+        }
+      }
+    },
+    "ReviewRating": {
+      "description": "A rating on an [`Assertion`].\n\n[`Assertion`]: crate::Assertion.\n\n See <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_claim_review>.",
+      "type": "object",
+      "required": [
+        "explanation",
+        "value"
+      ],
+      "properties": {
+        "code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "explanation": {
+          "type": "string"
+        },
+        "value": {
+          "type": "integer",
+          "format": "uint8",
+          "minimum": 0.0
+        }
+      }
+    },
+    "SignatureInfo": {
+      "description": "Holds information about a signature",
+      "type": "object",
+      "properties": {
+        "cert_serial_number": {
+          "description": "The serial number of the certificate",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "issuer": {
+          "description": "human readable issuing authority for this signature",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "time": {
+          "description": "the time the signature was created",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "UriOrResource": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ResourceRef"
+        },
+        {
+          "$ref": "#/definitions/HashedUri"
+        }
+      ]
+    },
+    "ValidationStatus": {
+      "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.",
+      "type": "object",
+      "required": [
+        "code"
+      ],
+      "properties": {
+        "code": {
+          "description": "Validation status code.",
+          "type": "string"
+        },
+        "explanation": {
+          "description": "Human-readable description of the validation that was performed.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "url": {
+          "description": "Internal JUMBF reference to the entity that was validated.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    }
+  }
+}
