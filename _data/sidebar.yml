@@ -6,7 +6,7 @@ children:
     url: manifest-reference
     children:
 
-    - title: Referece with CAI styling
+    - title: Reference with CAI styling
       url: reference-cai
 
   - title: Reference with comments
@@ -17,5 +17,9 @@ children:
       url: review-questions
 
   - title: ManifestStore JSON schema
-    url: schema
-    type: top-leaf
+    url: json-schema
+    children:
+
+    - title: JSON schema with CAI styling
+      url: json-schema-cai
+

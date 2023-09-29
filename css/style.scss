@@ -20,7 +20,7 @@ $mobile-break: 700px;
 
 @import "mixins";
 @import "main";
-@import "borland";
+/* @import "borland"; /
 /* @import "monaki"; */
 
 /* TOC stuff */
@@ -220,7 +220,7 @@ h2 code, h3 code, h4 code {
 }
 
 div.highlighter-rouge {
-  	background-color: #232323 !important;
+	background-color: #232323 !important; 
 }
 
 table.conversion td {

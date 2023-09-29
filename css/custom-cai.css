@@ -385,5 +385,9 @@ body:not(.is-scrolling) .navbar {
 }
 
 /* Added by Rand */
+div.highlighter-rouge {
+	background-color: #f6f8fa; 
+  padding: 5px 10px;
+}
 
 .comment { font-style: italic;}

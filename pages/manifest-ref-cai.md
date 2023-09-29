@@ -4,5 +4,5 @@ permalink: reference-cai
 layout: cai
 ---
 
-{% include_relative reference.md layout="cai" %}
+{% include_relative reference.md layout="cai" redactions="true" %}
 
