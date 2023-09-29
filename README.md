@@ -10,7 +10,14 @@ See the rendered site at <https://contentauth.github.io/json-manifest-reference/
 - [Jekyll documentation](https://jekyllrb.com/docs/): This repo uses Jekyll and Liquid.
 - [Liquid template language](https://shopify.github.io/liquid/)
 
-## How to update the JSON schema
+
+## Implementation
+
+The reference documentation is generated from JSON schema files in the `_data` directory:
+- [`/_data/ManifestStore_schema.json`](./_data/ManifestStore_schema.json) is the canonical file generated from the source code by the dev team.
+- [`/_data/ManifestStore_schema_edited.json`](./_data/ManifestStore_schema_edited.json) is a temporary copy of `ManifestStore_schema.json` 
+
+### How to update the JSON schema
 
 If you don't need to preview (for example if you change is trivial), create and use a branch and then just open a PR.
 If you're making more extensive changes and want to preview the rendered changes, create a PR using a fork.  
@@ -45,15 +52,7 @@ JavaScript code converts crate links to anchor links.  For example:
 
 `crate::ManifestStore` -> `#manifeststore`
 
-## TO DO 
 
-Cover all the cases for stuff like
-
-```
-"type": "integer",
-"format": "uint8",
-"minimum": 0.0
-```
 
 
 
