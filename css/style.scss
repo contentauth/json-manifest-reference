@@ -336,53 +336,6 @@ table.conversion td ol {
   margin-top: 5px;
 }
 
-/* Overlay effect for staged prerelease docs in fork
-#overlay {
-  position: fixed;
-  display: none;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0,0,0,0.67);
-  z-index: 2;
-  cursor: pointer;
-} */
-
-#overlay {
-  position: fixed; /* Sit on top of the page content */
-  display: none; /* Hidden by default */
-  width: 800px;
-  height: 400px;
-  top: 20%; /* 20px; */
-  left: 20%; /* 50px; */
-  background-color: rgba(0,0,0,0.7); /* Black background with opacity */
-  z-index: 2; /* Specify a stack order in case you're using a different order for other elements */
-  border-radius: 7px;
-  cursor: pointer; /* Add a pointer on hover */
-}
-
-#overlay-text {
-  width: 600px;
-  font-size: 28px;
-  color: white;
-  margin: 100px auto;
-}
-
-#draft-doc-notice {
-  position: fixed;
-  bottom: 0; /* Position at bottom of the page */
-  left: 0;
-  background-color: rgba(0, 0, 255, 0.85); /* Blue background with opacity */
-  color: white;
-  width: 100%;
-  padding: 10px;
-  z-index: 99;
-  text-align: center;
-}
-
 /* Pop up warning used for certain pages */
 
 #popup {
@@ -450,4 +403,16 @@ blockquote p {
   background: #eee;
   padding: 6px;
   float: right;
+}
+
+/* For manifest reference */
+
+.manifest-object { 
+  display: inline-block; 
+  background-color: #e6f2ff; 
+  padding: 2px 5px; 
+  border: 1px solid #024384; 
+  width: fit-content; 
+  border-radius: 10px; 
+  font-size: 90%;
 }

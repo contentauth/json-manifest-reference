@@ -391,3 +391,13 @@ div.highlighter-rouge {
 }
 
 .comment { font-style: italic;}
+
+.manifest-object { 
+  display: inline-block; 
+  background-color: #e6f2ff; 
+  padding: 5px; 
+  border: 1px solid #024384; 
+  width: fit-content; 
+  border-radius: 10px; 
+  font-size: 90%;
+}

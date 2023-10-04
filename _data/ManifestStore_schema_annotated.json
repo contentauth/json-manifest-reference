@@ -6,11 +6,11 @@
     "required": ["manifests"],
     "properties": {
       "active_manifest": {
-        "description": "A label for the active (most recent) manifest in the store\n\n Does this string need to have some specific value, e.g. the value of the `label` property of the `manifest` in question? \n{: .comment}",
+        "description": "A label for the active (most recent) manifest in the store\n\n Clarify that the value of this property is the UUID of the active manifest. \n{: .comment}",
         "type": ["string", "null"]
       },
       "manifests": {
-        "description": "A HashMap of Manifests\n\n Perhaps note that the additional properties must be manifest objects? \n{: .comment}",
+        "description": "A HashMap of Manifests",
         "type": "object",
         "additionalProperties": {
           "$ref": "#/definitions/Manifest"

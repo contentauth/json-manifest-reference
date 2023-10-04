@@ -4,8 +4,8 @@ permalink: manifest-reference
 toc: false
 ---
 
-This is incomplete work in progress and is not yet accurate or complete. <br/>DO NOT REFER TO IT YET!
+This is a work in progress may not be accurate or complete. 
 {: .warning}
 
-
+{% include_relative manifest-diagram.md %}
 {% include_relative reference.md edits="true" %}

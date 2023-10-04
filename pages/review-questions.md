@@ -10,6 +10,9 @@ Many of the descriptions need a period at the end. Some have other minor spellin
 
 ### Reference-style links
 
+I manually fixed these issues in `_data/ManifestStore_scheam_edited.json`, which is currently used to generated the [manifest reference](/manifest-reference).
+{: .note}
+
 Some descriptions have [reference-style links](https://www.markdownguide.org/basic-syntax/#reference-style-links) like this:
 ```
 ... the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest
