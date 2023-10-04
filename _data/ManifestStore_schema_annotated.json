@@ -259,7 +259,7 @@
             "type": "string"
           },
           "claim_generator_hints": {
-            "description": "_No description provided_.\n What does it mean to have `additionalProperties` here?\n{: .comment}",
+            "description": "_No description provided_.\n Does `additionalProperties` here just mean this object can have any properites?\n{: .comment}",
             "type": ["object", "null"],
             "additionalProperties": true
           },
@@ -270,7 +270,7 @@
             }
           },
           "credentials": {
-            "description": "A List of verified credentials \n\nThe type definition is confusing.  An array of 'true'?\n{: .comment}",
+            "description": "A List of verified credentials \n\nThe type definition is strange...  An array of 'true'?\n{: .comment}",
             "type": ["array", "null"],
             "items": true
           },
