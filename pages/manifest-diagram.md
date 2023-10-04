@@ -20,7 +20,6 @@
   <polyline points="20,80 60,80" 
   style="fill:none;stroke:black;stroke-width:2" /> <!-- 2d horiz from large "L" -->
 
-
    <polyline points="100,100 100,220 100,220, 140,220" 
   style="fill:none;stroke:black;stroke-width:2" /> <!-- Small "L -->
 
@@ -76,4 +75,20 @@
 </svg>
 </div>
 
+To add: claim_generator_hints, claim_generator_info, credentials, redactions
+
+<!-- 
+{% assign schema = site.data.ManifestStore_schema_edited %}
+
+{% for term in schema.definitions %}
+{% if term.first=="Manifest" %}
+{% assign entity = term.last %}
+
+{%- for property in entity.properties -%}
+- {{property.first}} 
+
+{% endfor %}
+{% endif %}
+{% endfor %}
+-->
 
