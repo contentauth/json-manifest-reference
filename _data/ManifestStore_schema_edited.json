@@ -135,10 +135,6 @@
         }
       }
     },
-    "DateT": {
-      "type": "string",
-      "description": "DateT store date strings in CBOR with datetime Tag(0) This helper class should be used where the C2PA spec specifies a tagged CBOR datatime."
-    },
     "HashedUri": {
       "description": "Hashed Uri structure as defined by C2PA spec It is annotated to produce the correctly tagged cbor serialization",
       "type": "object",
@@ -316,13 +312,6 @@
           "default": "c2pa/0.25.2",
           "type": "string"
         },
-        "claim_generator_hints": {
-          "type": [
-            "object",
-            "null"
-          ],
-          "additionalProperties": true
-        },
         "claim_generator_info": {
           "type": [
             "array",
@@ -491,14 +480,8 @@
           ]
         },
         "dateTime": {
-          "anyOf": [
-            {
-              "$ref": "#/definitions/DateT"
-            },
-            {
-              "type": "null"
-            }
-          ]
+          "type": "string",
+          "description": "A date time in ISO 8601 format."
         },
         "reference": {
           "anyOf": [

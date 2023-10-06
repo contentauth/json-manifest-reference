@@ -1,0 +1,28 @@
+<div style="position: absolute; left: {{include.x}}px; top: {{include.y}}px; font-size: 90%; ">
+
+{% if include.type=="object" and include.obj %}
+  <div style="display: inline; font-family: 'Courier New', Courier, monospace; font-weight: bold;">{{include.name}}</div>
+  <div class="manifest-object"><a href="#{{include.obj | downcase}}">{{include.obj}}</a></div>
+
+{% elsif include.type=="object_array" %}
+  <div style="display: inline;"><span style="font-family: 'Courier New', Courier, monospace; font-weight: bold;">{{include.name}}</span>: Array of </div> 
+  <div class="manifest-object"><a href="#{{include.obj | downcase}}">{{include.obj}}</a></div>
+
+{% elsif include.type=="scalar" %}
+  {%- if include.desc -%}
+    <span style="font-family: 'Courier New', Courier, monospace; font-weight: bold;">{{include.name}}</span>{% unless include.desc=="NA" %}: {{include.desc}}{%endunless%} 
+  {%- else -%}
+    {%- for term in site.data.ManifestStore_schema_edited.definitions -%}
+      {%- if term.first=="Manifest" -%} <!-- {% comment %} Only for Manifest object currently, could be generalized {% endcomment %} -->
+        {%- for property in term.last.properties -%}
+          {% if property.first==include.name %}
+            <div style="display: table-cell; font-family: 'Courier New', Courier, monospace; font-weight: bold;">{{property.first}}</div>
+            <div style="display: table-cell; line-height: 100%; padding-top: 0;">{%- if property.last.description -%} {{property.last.description | prepend: ": " | markdownify | remove: "<p>" | remove: "</p>" }} {%- else -%}: <i>Description TBD</i>. {%- endif -%}</div>
+          {% endif %}
+        {% endfor %}
+      {%- endif -%}
+    {%- endfor -%}
+  {%- endif -%}
+{% endif %}
+
+</div>

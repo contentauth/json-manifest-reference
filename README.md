@@ -23,7 +23,10 @@ The reference documentation is generated from JSON schema files in the `_data` d
 The schema in `ManifestStore_schema_edited.json` has the following manual edits:
 - `ResourceStore` object definition removed.
 - Properties of type `ResourceStore` are removed: `Ingredient.resources` and `Manifest.resources`.
-- Corrected issues with missing or malformatted shortlinks in descriptions.
+- Corrected issues with missing or mis-formatted shortlinks in descriptions.
+- Removed `Manifest.claim_generator_hints` property.
+- Removed `DateT` object and modified the one property that referred to it, `Metadata.dateTime` to specify a date/time string with ISO 8601 format.
+
 
 ### How to update the JSON schema
 
