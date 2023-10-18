@@ -322,12 +322,12 @@
           }
         },
         "credentials": {
-          "description": "A List of verified credentials",
+          "description": "An array of [W3C Verifiable Credentials](https://verifiablecredentials.dev/). See also the [W3C Recommendation](https://www.w3.org/TR/vc-data-model/). NOTE: This area is under active development and may change.  ",
           "type": [
             "array",
             "null"
           ],
-          "items": true
+          "items": "object"
         },
         "format": {
           "description": "The format of the source file as a MIME type.",

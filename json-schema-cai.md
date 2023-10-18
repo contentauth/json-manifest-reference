@@ -6,5 +6,5 @@ layout: cai
 ---
 
 ```json
-{% include_relative _data/ManifestStore_schema.json %}
+{% include_relative _data/ManifestStore_schema_edited.json %}
 ```
