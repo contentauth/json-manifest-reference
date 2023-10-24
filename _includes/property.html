@@ -10,14 +10,14 @@
 
 {% elsif include.type=="scalar" %}
   {%- if include.desc -%}
-    <span style="font-family: 'Courier New', Courier, monospace; font-weight: bold;">{{include.name}}</span>{% unless include.desc=="NA" %}: {{include.desc}}{%endunless%} 
+    <span style="font-family: 'Courier New', Courier, monospace; font-weight: bold;">{{include.name}}</span>{% unless include.desc=="NA" %}: <span style="font-size:80%;">{{include.desc}}</span>{%endunless%} 
   {%- else -%}
     {%- for term in site.data.ManifestStore_schema_edited.definitions -%}
       {%- if term.first=="Manifest" -%} <!-- {% comment %} Only for Manifest object currently, could be generalized {% endcomment %} -->
         {%- for property in term.last.properties -%}
           {% if property.first==include.name %}
             <div style="display: table-cell; font-family: 'Courier New', Courier, monospace; font-weight: bold;">{{property.first}}</div>
-            <div style="display: table-cell; line-height: 100%; padding-top: 0;">{%- if property.last.description -%} {{property.last.description | prepend: ": " | markdownify | remove: "<p>" | remove: "</p>" }} {%- else -%}: <i>Description TBD</i>. {%- endif -%}</div>
+            <div style="display: table-cell; line-height: 100%; padding-top: 0;">: <span style="font-size:80%;">{%- if property.last.description -%} {{property.last.description | markdownify | remove: "<p>" | remove: "</p>" }} {%- else -%}: <i>Description TBD</i>. {%- endif -%}</span></div>
           {% endif %}
         {% endfor %}
       {%- endif -%}

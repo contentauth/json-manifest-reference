@@ -1,2 +1,4 @@
-<polyline points="{{include.x-start}},{{include.y}} {{include.x-finish}},{{include.y}}" 
+{% assign x-finish = include.x | plus: include.length %}
+<!-- xfinish  = {{x-finish}} -->
+<polyline points="{{include.x}},{{include.y}} {{x-finish}},{{include.y}}" 
 style="fill:none;stroke:black;stroke-width:2" />
