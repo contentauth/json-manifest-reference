@@ -81,7 +81,7 @@
 {% for term in schema.definitions %}
 
 {% if include.layout=="cai" %}
-<button class="top-scroll-btn" title="Go to top">Scroll To Top</button>
+<a class="top-scroll-btn" title="Go to top" href="#manifeststore">Scroll To Top</a>
 {% endif %}
 
 ### {{term.first}}
