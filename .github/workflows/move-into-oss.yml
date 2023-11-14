@@ -1,0 +1,40 @@
+name: moving HTML file 
+
+
+on:
+  push:
+    branches:
+      - github-actions
+
+
+jobs:
+    build-deploy:
+        runs-on: ubuntu-20.04
+        defaults:
+          run:
+            working-directory: _site
+        steps:
+          - name: build jekyll 
+          - run: bundle exec jekyll build
+    changed_files:
+        runs-on: ubuntu-latest  # windows-latest || macos-latest
+        name: Test changed-files
+        steps:
+          - uses: actions/checkout@v4
+            with:
+              fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
+         - name: Get changed files in the _site folder
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v40
+        with:
+          files: _site/reference-cai.html  # Alternatively using: `docs/**`
+
+      - name: Run step if the file has changed
+        if: steps.changed-files-specific.outputs.any_changed == 'true'
+        run: |
+          echo "One or more files in the docs folder has changed."
+          echo "List all the files that have changed: ${{ steps.changed-files-specific.outputs.all_changed_files }}"
+            steps:
+
+
+
