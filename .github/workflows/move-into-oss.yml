@@ -5,14 +5,9 @@ on:
   push:
     branches:
       - github-actions
-
-
 jobs:
     build-deploy:
         runs-on: ubuntu-20.04
-        defaults:
-          run:
-            working-directory: site
         steps:
           - name: build jekyll 
             run: bundle exec jekyll build
