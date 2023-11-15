@@ -6,11 +6,18 @@ on:
     branches:
       - github-actions
 jobs:
-    build-deploy:
-        runs-on: ubuntu-20.04
-        steps:
-          - name: build jekyll 
-            run: bundle exec jekyll build
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.4'
+          bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      - run: bundle exec jekyll build
+      - uses: actions/upload-pages-artifact@v1
+        with:
+          path: "_site/"
 
 
 
