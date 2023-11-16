@@ -41,6 +41,7 @@ jobs:
           bundle exec jekyll build
           mkdir "manifest-repo"
           cd "manifest-repo"
+          mkdir "allo"
           ls
      
       
