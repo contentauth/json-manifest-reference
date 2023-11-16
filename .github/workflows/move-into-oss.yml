@@ -39,6 +39,8 @@ jobs:
         if: steps.changed-files-specific.outputs.workflow_modified_files == '.github/workflows/move-into-oss.yml'
         run: |
           bundle exec jekyll build
+          mkdir "manifest-repo"
+          cd "manifest-repo"
           ls
      
       
