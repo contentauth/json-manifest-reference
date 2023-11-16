@@ -32,10 +32,9 @@ jobs:
            workflow : 
             - '.github/workflows/move-into-oss.yml'
       - name: List all changed files
-        run: |
-            for file in ${{ steps.changed-files-specific.outputs.workflow_any_changed }}; do
-              echo "$file was changed"
-            done
+        env:
+          CHANGED_INFO: ${{ toJson(steps.changed-files-specific.outputs) }}
+        run: echo "$CHANGED_INFO"
       - name: Run step if file change
         if: steps.changed-files-specific.outputs.workflow_any_changed == true
         run: bundle exec jekyll build
