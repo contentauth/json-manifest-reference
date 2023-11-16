@@ -41,7 +41,6 @@ jobs:
       - name: Run step if file change
         run: bundle exec jekyll build
       - name: Upload artifact if file changes
-        if: steps.changed-files-specific.outputs.workflow_any_changed == true
         uses: actions/upload-artifact@v1
         with:
           path: "_site/"
