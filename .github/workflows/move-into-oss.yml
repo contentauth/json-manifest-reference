@@ -46,6 +46,13 @@ jobs:
         with:
           token: ${{ secrets.OPENSOURCE_PAT}}
           repository: contentauth/opensource.contentauth.org
+      - name: Check if the cloning worked
+        run: |
+          ls
+      
+
+  
+      
    
 
 
