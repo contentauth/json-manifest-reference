@@ -39,7 +39,6 @@ jobs:
               echo "$file was changed"
             done
       - name: Run step if file change
-        if: steps.changed-files-specific.outputs.workflow_any_changed  == true 
         run: bundle exec jekyll build
       - name: Upload artifact if file changes
         if: steps.changed-files-specific.outputs.workflow_any_changed == true
