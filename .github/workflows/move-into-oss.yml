@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: '2.7.4'
@@ -41,9 +41,13 @@ jobs:
           bundle exec jekyll build
           mkdir "manifest-repo"
           cd "manifest-repo"
-          mkdir "allo"
-          ls
-     
+      - name: Checkout the OSS repo 
+        uses: actions/checkout@v4
+        with:
+          token: ${{secrets.github-actions-jekyll}}
+          repository: contentauth/opensource.contentauth.org
+
+
       
   
     
