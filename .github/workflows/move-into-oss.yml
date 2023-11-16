@@ -44,7 +44,7 @@ jobs:
       - name: Checkout the OSS repo 
         uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB-ACTIONS-JEKYLL}}
           repository: contentauth/opensource.contentauth.org
 
 
