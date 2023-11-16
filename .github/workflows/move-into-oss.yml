@@ -23,17 +23,12 @@ jobs:
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
 
-      - name: Get changed files
-        id: changed-files
+      - name: Get changed files in the docs folder
+        id: changed-files-specific
         uses: tj-actions/changed-files@v40
+        with:
+          files: pages/manifest-ref-cai.md # Alternatively using: `docs/**`
 
-      # NOTE: `since_last_remote_commit: true` is implied by default and falls back to the previous local commit.
-
-      - name: List all changed files
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if $file != 'pages/manifest-ref-cai.md' 
-            echo "bye"
-          done
-        
+          
+            
         
