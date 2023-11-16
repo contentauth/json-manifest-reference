@@ -22,16 +22,25 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # OR "2" -> To retrieve the preceding commit.
-
-      - name: Get changed files in the docs folder
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.4'
+          bundler-cache: true       
+      - name: Get HTML file 
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
-          files: pages/manifest-ref-cai.md # Alternatively using: `docs/**`
+          files: pages/manifest-ref-cai.md 
       - name: Run step if doc file(s) change
-        if: steps.changed-files-yaml.outputs.doc_any_changed == 'true'
-        run: |
-           echo "One or more doc file(s) has changed."
-      
+        if: steps.changed-files-specific.outputs.test_any_changed == true 
+        run: bundle exec jekyll build
+      - uses: actions/upload-pages-artifact@v1
+        with:
+            path: "_site/"
+         
+    
+    
+          
+          
             
         
