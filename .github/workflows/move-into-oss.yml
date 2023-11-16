@@ -36,10 +36,10 @@ jobs:
           CHANGED_INFO: ${{ toJson(steps.changed-files-specific.outputs) }}
         run: echo "$CHANGED_INFO"
       - name: Run step if file change
-        if: steps.changed-files-specific.outputs.workflow_any_changed == true
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '.github/workflows/move-into-oss.yml'
         run: bundle exec jekyll build
       - name: Upload artifact if file changes
-        if: steps.changed-files-specific.outputs.workflow_any_changed == true
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '.github/workflows/move-into-oss.yml'
         uses: actions/upload-artifact@v3.1.3
         with:
           path: "_site/"
