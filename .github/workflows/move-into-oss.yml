@@ -31,13 +31,15 @@ jobs:
         uses: tj-actions/changed-files@v40
         with:
           files: .github/workflows/move-into-oss.yml 
-      - name: Run step if doc file(s) change
+      - name: Run step if file change
         if: steps.changed-files-specific.outputs.test_any_changed == true 
         run: bundle exec jekyll build
-      - uses: actions/upload-artifact@v1
+      - name: Upload artifact if file changes
+        if: steps.changed-files-specific.outputs.test_any_changed == true
+        uses: actions/upload-artifact@v1
         with:
-            path: "_site/"
-         
+          path: "_site/"
+  
     
     
           
