@@ -28,7 +28,10 @@ jobs:
         uses: tj-actions/changed-files@v40
         with:
           files: pages/manifest-ref-cai.md # Alternatively using: `docs/**`
-
-          
+      - name: Run step if doc file(s) change
+        if: steps.changed-files-yaml.outputs.doc_any_changed == 'true'
+        run: |
+           echo "One or more doc file(s) has changed."
+      
             
         
