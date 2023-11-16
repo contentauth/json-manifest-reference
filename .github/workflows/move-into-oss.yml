@@ -39,7 +39,7 @@ jobs:
       - name: Run step if file change
         run: bundle exec jekyll build
       - name: Upload artifact if file changes
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v3.1.3
         with:
           path: "_site/"
   
