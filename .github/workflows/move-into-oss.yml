@@ -30,10 +30,10 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
-          files: .github/workflows/move-into-oss.yml 
+          files: .github/workflows/move-into-oss.yml
       - name: List all changed files
         run: |
-            for file in ${{ steps.changed-files-specific.outputs.all_changed_files }}; do
+            for file in ${{ steps.changed-files-specific.outputs.test_any_changed }}; do
               echo "$file was changed"
             done
       - name: Run step if file change
