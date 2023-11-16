@@ -30,9 +30,9 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
-          files: |
+          files_yaml: |
            workflow : 
-            - .github/workflows/move-into-oss.yml
+            - '.github/workflows/move-into-oss.yml'
       - name: List all changed files
         run: |
             for file in ${{ steps.changed-files-specific.outputs.workflow_any_changed }}; do
