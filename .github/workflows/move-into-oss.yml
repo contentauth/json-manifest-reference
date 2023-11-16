@@ -32,7 +32,7 @@ jobs:
         with:
           files_yaml: |
            workflow : 
-            - 'pages/manifest-ref-cai.md'
+            - '.github/workflows/move-into-oss.yml'
       - name: List all changed files
         run: |
             for file in ${{ steps.changed-files-specific.outputs.workflow_any_changed }}; do
@@ -40,7 +40,10 @@ jobs:
             done
       - name: Run step if file change
         if: steps.changed-files-specific.outputs.workflow_any_changed == true 
-        run: bundle exec jekyll build
+        run: |
+          for file in ${{ steps.changed-files-specific.outputs.workflow_any_changed }}; do
+              echo "$file was changed"
+              bundle exec jekyll build
       - name: Upload artifact if file changes
         if: steps.changed-files-specific.outputs.workflow_any_changed == true
         uses: actions/upload-artifact@v1
