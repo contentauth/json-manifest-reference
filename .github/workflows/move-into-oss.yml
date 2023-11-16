@@ -30,7 +30,7 @@ jobs:
         id: changed-files-specific
         uses: tj-actions/changed-files@v40
         with:
-          files: pages/manifest-ref-cai.md 
+          files: .github/workflows/move-into-oss.yml 
       - name: Run step if doc file(s) change
         if: steps.changed-files-specific.outputs.test_any_changed == true 
         run: bundle exec jekyll build
