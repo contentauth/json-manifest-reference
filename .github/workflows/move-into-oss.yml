@@ -56,7 +56,9 @@ jobs:
         run : | 
           go install github.com/ericchiang/pup@latest  
       - name : Get HTML selectors
-        run : ls
+        run : | 
+          cd .. 
+          ls
           
 
 
