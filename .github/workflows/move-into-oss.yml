@@ -58,6 +58,7 @@ jobs:
       - name : Get HTML selectors
         run : | 
           cd .. 
+          cd json-manifest-reference
           ls
           
 
