@@ -55,6 +55,8 @@ jobs:
         run : | 
           cd .. 
           ls
+          cd json-manifest-reference
+          ls
       - name : Install Go 
         uses: actions/setup-go@v4
         with:
