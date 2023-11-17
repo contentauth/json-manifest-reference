@@ -40,17 +40,12 @@ jobs:
         run: |
           bundle exec jekyll build
           mkdir "manifest-repo"
-          cd manifest-repo
       - name: Checkout the OSS repo
         uses: actions/checkout@v4
         with:
           path: './manifest-repo' 
           token: ${{ secrets.OPENSOURCE_PAT}}
           repository: contentauth/opensource.contentauth.org
-      - name: Check whats in manifest repo
-        run: |
-          cd manifest-repo
-          ls
       - name : Install Go 
         uses: actions/setup-go@v4
         with:
@@ -58,6 +53,9 @@ jobs:
       - name : Install pup 
         run : | 
           go install github.com/ericchiang/pup@latest  
+      - name: Modify HTML file
+        run : ls
+          
     
           
 
