@@ -46,8 +46,11 @@ jobs:
         with:
           token: ${{ secrets.OPENSOURCE_PAT}}
           repository: contentauth/opensource.contentauth.org
-      - name: Go back to JSON repo 
-        run : cd .. 
+      - name : Go back to jekyll repo
+        run : | 
+          cd .. 
+          cd json-manifest-reference
+          ls
       - name : Install Go 
         uses: actions/setup-go@v4
         with:
@@ -55,11 +58,7 @@ jobs:
       - name : Install pup 
         run : | 
           go install github.com/ericchiang/pup@latest  
-      - name : Get HTML selectors
-        run : | 
-          cd .. 
-          cd json-manifest-reference
-          ls
+    
           
 
 
