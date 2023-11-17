@@ -58,7 +58,7 @@ jobs:
       - name: check 
         run : |
           ls
-          cd ./_site/docs/manifest
+          cd ./_site
           ls
           
     
