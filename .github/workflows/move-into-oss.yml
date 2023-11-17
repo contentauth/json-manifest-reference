@@ -42,6 +42,8 @@ jobs:
           mkdir "manifest-repo"
           ls
           cd "manifest-repo"
+      - name : See whats in manifest repo 
+        run : ls
       - name: Checkout the OSS repo 
         uses: actions/checkout@v4
         with:
