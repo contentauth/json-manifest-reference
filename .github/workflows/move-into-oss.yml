@@ -49,7 +49,6 @@ jobs:
       - name : Go back to jekyll repo
         run : | 
           cd .. 
-          cd json-manifest-reference
           ls
       - name : Install Go 
         uses: actions/setup-go@v4
