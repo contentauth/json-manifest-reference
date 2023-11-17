@@ -92,13 +92,13 @@
 
 {{term.last.description}}
 
-<table style="margin-top: 10px;">
+<table class="manifest-ref-table" style="margin-top: 10px;">
 <thead><tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required?</th>
-<th>Default Value</th>
+<th class="manifest-ref-table">Property</th>
+<th class="manifest-ref-table">Type</th>
+<th class="manifest-ref-table">Description</th>
+<th class="manifest-ref-table">Required?</th>
+<th class="manifest-ref-table">Default Value</th>
 </tr></thead>
 
 <tbody>
