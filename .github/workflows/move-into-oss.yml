@@ -48,7 +48,9 @@ jobs:
           token: ${{ secrets.OPENSOURCE_PAT}}
           repository: contentauth/opensource.contentauth.org
       - name: Check whats in manifest repo
-        run: ls
+        run: |
+          cd manifest-repo
+          ls
       - name : Install Go 
         uses: actions/setup-go@v4
         with:
