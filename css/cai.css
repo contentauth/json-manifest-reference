@@ -384,20 +384,4 @@ body:not(.is-scrolling) .navbar {
   --docsearch-highlight-color: var(--cai-color-primary-dark);
 }
 
-/* Added by Rand */
-div.highlighter-rouge {
-	background-color: #f6f8fa; 
-  padding: 5px 10px;
-}
 
-.comment { font-style: italic;}
-
-.manifest-object { 
-  display: inline-block; 
-  background-color: #e6f2ff; 
-  padding: 5px; 
-  border: 1px solid #024384; 
-  width: fit-content; 
-  border-radius: 10px; 
-  font-size: 90%;
-}
