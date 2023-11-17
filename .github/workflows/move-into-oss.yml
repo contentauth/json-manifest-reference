@@ -54,7 +54,7 @@ jobs:
         run : | 
           go install github.com/ericchiang/pup@latest  
       - name: Modify HTML file
-        run : pup help
+        run : cat ./_site/reference-cai.html | pup 'body.innerHTML'
           
     
           
