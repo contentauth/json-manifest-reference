@@ -42,8 +42,9 @@ jobs:
           mkdir "manifest-repo"
           cd manifest-repo
       - name: Checkout the OSS repo
-        uses: actions/checkout@v4 
+        uses: actions/checkout@v4
         with:
+          path: './manifest-repo' 
           token: ${{ secrets.OPENSOURCE_PAT}}
           repository: contentauth/opensource.contentauth.org
       - name: Check whats in manifest repo
