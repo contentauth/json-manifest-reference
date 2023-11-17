@@ -57,7 +57,7 @@ jobs:
         run : cat ./_site/reference-cai.html | pup 'body' > './manifest-repo/docs/manifest/reference-cai.html'
       - name: check 
         run : |
-          cd './manifest-repo'
+          cd './manifest-repo/docs'
           ls
           
     
