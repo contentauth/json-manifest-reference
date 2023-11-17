@@ -12,22 +12,22 @@
 
 ### Properties
 
-<table>
+<table class="manifest-ref-table">
 <thead><tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required?</th>
+<th class="manifest-ref-table">Property</th>
+<th class="manifest-ref-table">Type</th>
+<th class="manifest-ref-table">Description</th>
+<th class="manifest-ref-table">Required?</th>
 </tr></thead>
 
 <tbody>
 {% for property in schema.properties %}
 {% assign required_properties = schema.required %}
 <tr>
-<td>{{property.first}}</td>
+<td class="manifest-ref-table">{{property.first}}</td>
 
 <!-- Type -->
-<td>
+<td class="manifest-ref-table">
 {% if property.last.type=="object" %} 
   Object 
 
@@ -38,14 +38,14 @@
 </td>
 
 <!-- Description -->
-<td>{{property.last.description|markdownify}}
+<td class="manifest-ref-table">{{property.last.description|markdownify}}
 {% if property.last.additionalProperties %}
   {% assign href=property.last.additionalProperties.first[1] %}
   See {% include ref-to-link.html ref=href %}
 {% endif %}
 </td>
 
-<td> <!-- Required? -->
+<td class="manifest-ref-table"> <!-- Required? -->
 {% include required.html prop=property.first required_list=required_properties %}
 </td>
 
@@ -92,33 +92,33 @@
 
 {{term.last.description}}
 
-<table style="margin-top: 10px;">
+<table class="manifest-ref-table" style="margin-top: 10px;">
 <thead><tr>
-<th>Property</th>
-<th>Type</th>
-<th>Description</th>
-<th>Required?</th>
-<th>Default Value</th>
+<th class="manifest-ref-table">Property</th>
+<th class="manifest-ref-table">Type</th>
+<th class="manifest-ref-table">Description</th>
+<th class="manifest-ref-table">Required?</th>
+<th class="manifest-ref-table">Default Value</th>
 </tr></thead>
 
 <tbody>
 {% for property in entity.properties %}
 <tr>
-<td>{{property.first}}</td>
+<td class="manifest-ref-table">{{property.first}}</td>
 
 <!-- Type  -->
-<td> 
+<td class="manifest-ref-table"> 
 {% include type.html prop_info=property.last %} 
 </td>
 
 <!-- Description -->
-<td>{%- include description.html str=property.last.description -%}</td>
+<td class="manifest-ref-table">{%- include description.html str=property.last.description -%}</td>
 
-<td> <!-- Required? -->
+<td class="manifest-ref-table"> <!-- Required? -->
 {% include required.html prop=property.first required_list=entity.required %}
 </td>
 
-<td> <!-- Default Value -->
+<td class="manifest-ref-table"> <!-- Default Value -->
 {% if property.last.default == empty %} Empty array {%endif%}
 {% if property.last.default %} 
   {{property.last.default}} 
