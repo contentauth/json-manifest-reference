@@ -59,6 +59,7 @@ jobs:
         run : |
           cd './manifest-repo/docs/manifest'
           ls
+          mv './_site/js/cai-customscripts.js' './manifest-repo/docs/manifest'
           
     
           
