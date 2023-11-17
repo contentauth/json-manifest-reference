@@ -56,7 +56,7 @@ jobs:
       - name: Modify HTML file and place it in the OSS repo
         run : cat ./_site/reference-cai.html | pup 'body' > './manifest-repo/docs/manifest/reference-cai.html'
       - name: Move the js file to the OSS repo  
-        run : cp ./_site/js/cai-customsscripts.js > './manifest-repo/docs/manifest/cai-customsscripts.js'
+        run : cp /_site/js/cai-customsscripts.js > /manifest-repo/docs/manifest
       - name: check 
         run : |
           cd manifest-repo
