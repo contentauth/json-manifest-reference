@@ -53,14 +53,17 @@ jobs:
       - name : Install pup 
         run : | 
           go install github.com/ericchiang/pup@latest  
-      - name: Modify HTML file
+      - name: Modify HTML file and place it in the OSS repo
         run : cat ./_site/reference-cai.html | pup 'body' > './manifest-repo/docs/manifest/reference-cai.html'
-      - name: Check that the file has been added
+      - name: Move the js file to the OSS repo  
+        run : cp ./_site/js/cai-customsscripts.js > './manifest-repo/docs/manifest'
+      - name: check 
         run : |
           cd manifest-repo
           cd docs
-          cd manifest 
-          cat reference-cai.html
+          cd manifest
+          ls
+          
           
     
           
