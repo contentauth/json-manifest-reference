@@ -58,7 +58,7 @@ jobs:
       - name: check 
         run : |
           cd './manifest-repo/docs/manifest'
-          ls './_site/js/cai-customscripts.js' './manifest-repo/docs/manifest'
+          cp './_site/js/cai-customscripts.js' './manifest-repo/docs/manifest'
           
     
           
