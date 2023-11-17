@@ -40,6 +40,7 @@ jobs:
         run: |
           bundle exec jekyll build
           mkdir "manifest-repo"
+          ls
           cd "manifest-repo"
       - name: Checkout the OSS repo 
         uses: actions/checkout@v4
