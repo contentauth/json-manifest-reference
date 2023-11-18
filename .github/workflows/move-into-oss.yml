@@ -61,7 +61,7 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.OPENSOURCE_PAT}}
-          path: './manifest-repo' 
+  
       
 
           
