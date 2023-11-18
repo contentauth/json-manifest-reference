@@ -51,28 +51,3 @@ jobs:
         with:
           token: ${{ secrets.OPENSOURCE_PAT}}
           path: './manifest-repo' 
-      
-
-          
-    
-          
-
-
-
-
-
-
-
-  
-      
-   
-
-
-      
-  
-    
-    
-          
-          
-            
-        
