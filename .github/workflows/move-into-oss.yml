@@ -1,4 +1,4 @@
-name: CI
+name: Displaying jekyll in Docusaurus
 
 on:
   push:
@@ -6,15 +6,6 @@ on:
       - github-actions
 
 jobs:
-  # -------------------------------------------------------------
-  # Using GitHub's API is not supported for push events
-  # -------------------------------------------------------------
-  # 
-  # ----------------------------------------------------------------------------------------------
-  # Using local .git history
-  # ----------------------------------------------------------------------------------------------
-  # Event `push`: Compare the preceding remote commit -> to the current commit of the main branch 
-  # ----------------------------------------------------------------------------------------------
   changed_files:
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Test changed-files
@@ -31,10 +22,6 @@ jobs:
           files_yaml: |
            workflow : 
             - '.github/workflows/move-into-oss.yml'
-      - name: List all changed files
-        env:
-          CHANGED_INFO: ${{ toJson(steps.changed-files-specific.outputs) }}
-        run: echo "$CHANGED_INFO"
       - name: Run step if file change
         if: steps.changed-files-specific.outputs.workflow_modified_files == '.github/workflows/move-into-oss.yml'
         run: |
@@ -57,11 +44,13 @@ jobs:
         run : cat ./_site/reference-cai.html | pup 'body' > './manifest-repo/docs/manifest/reference-cai.html'
       - name: Move javascript file to OSS repo
         run : cp './_site/js/cai-customscripts.js' './manifest-repo/docs/manifest'
+      - name: Move css file to OSS repo 
+        run : cp './_site/css/cai-addon.css' './manifest-repo/docs/manifest'
       - name: Open PR in OSS 
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.OPENSOURCE_PAT}}
-  
+          path: './manifest-repo' 
       
 
           
