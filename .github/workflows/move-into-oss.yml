@@ -1,0 +1,57 @@
+name: Displaying jekyll in Docusaurus
+
+on:
+  push:
+    branches:
+      - github-actions
+
+jobs:
+  changed_files:
+    runs-on: ubuntu-latest
+    name: Test changed-files
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.4'
+          bundler-cache: true       
+      - name: Get HTML file 
+        id: changed-files-specific
+        uses: tj-actions/changed-files@v40
+        with:
+          files_yaml: |
+           workflow : 
+            - '_data/ManifestStore_schema_edited.json'
+      - name: Build if file change
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
+        run: |
+          bundle exec jekyll build
+          mkdir "manifest-repo"
+      - name: Checkout the OSS repo
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
+        uses: actions/checkout@v4
+        with:
+          path: './manifest-repo' 
+          token: ${{ secrets.OPENSOURCE_PAT}}
+          repository: contentauth/opensource.contentauth.org
+      - name : Install Go
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
+        uses: actions/setup-go@v4
+        with:
+            go-version: '^1.13.1' # The Go version to download (if necessary) and use.
+      - name : Install pup 
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
+        run : | 
+          go install github.com/ericchiang/pup@latest  
+      - name: Modify HTML file and place it in the OSS repo 
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
+        run : cat ./_site/reference-cai.html | pup 'body' > './manifest-repo/docs/manifest/reference-cai.html'
+      - name: Move css file to OSS repo 
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
+        run : cp './_site/css/cai-addon.css' './manifest-repo/docs/manifest/cai-addon.css'
+      - name: Open PR in OSS 
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.OPENSOURCE_PAT}}
+          path: './manifest-repo' 
