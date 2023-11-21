@@ -296,7 +296,7 @@
       }
     },
     "Manifest": {
-      "description": "A Manifest represents all the information in a c2pa manifest",
+      "description": "Represents all the information in a c2pa manifest.",
       "type": "object",
       "properties": {
         "assertions": {
@@ -308,7 +308,7 @@
           }
         },
         "claim_generator": {
-          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax",
+          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim. Spaces are not allowed in names, versions can be specified with product/1.0 syntax",
           "default": "c2pa/0.25.2",
           "type": "string"
         },
