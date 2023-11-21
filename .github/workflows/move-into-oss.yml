@@ -21,9 +21,9 @@ jobs:
         with:
           files_yaml: |
            workflow : 
-            - '.github/workflows/move-into-oss.yml'
+            - '_data/ManifestStore_schema_edited.json'
       - name: Run step if file change
-        if: steps.changed-files-specific.outputs.workflow_modified_files == '.github/workflows/move-into-oss.yml'
+        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
         run: |
           bundle exec jekyll build
           mkdir "manifest-repo"
