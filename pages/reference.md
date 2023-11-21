@@ -90,7 +90,7 @@
 
 {% if entity.type=="object" and entity.properties -%}
 
-{{term.last.description}}
+<p class="prop_desc" markdown="1">{{term.last.description}}</p>
 
 <table class="manifest-ref-table" style="margin-top: 10px;">
 <thead><tr>
