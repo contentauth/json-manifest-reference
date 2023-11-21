@@ -296,7 +296,7 @@
       }
     },
     "Manifest": {
-      "description": "A Manifest represents all the information in a c2pa manifest",
+      "description": "Represents all the information in a c2pa manifest.",
       "type": "object",
       "properties": {
         "assertions": {
