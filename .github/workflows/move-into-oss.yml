@@ -3,7 +3,7 @@ name: Displaying jekyll in Docusaurus
 on:
   push:
     branches:
-      - github-actions
+      - main
 
 jobs:
   changed_files:
