@@ -2,7 +2,7 @@
 title: CAI ManifestStore JSON Schema
 permalink: json-schema-cai
 toc: false
-layout: cai
+layout: cai-schema
 ---
 
 ```json
