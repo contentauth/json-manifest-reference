@@ -42,8 +42,8 @@ jobs:
           go install github.com/ericchiang/pup@latest  
       - name: Modify HTML file and place it in the OSS repo
         run : cat ./_site/reference-cai.html | pup 'body' > './manifest-repo/docs/manifest/reference-cai.html'
-      - name: Move javascript file to OSS repo
-        run : cp './_site/js/cai-customscripts.js' './manifest-repo/docs/manifest'
+      - name: Move css file to OSS repo 
+        run : cp './_site/css/cai-addon.css' './manifest-repo/docs/manifest/'
       - name: Open PR in OSS 
         uses: peter-evans/create-pull-request@v5
         with:
