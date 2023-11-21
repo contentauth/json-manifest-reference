@@ -539,7 +539,7 @@
       }
     },
     "ReviewRating": {
-      "description": "A rating on an [`Assertion`].\n\n[`Assertion`]: crate::Assertion.\n\n See <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_claim_review>.",
+      "description": "A rating on an [`Assertion`](crate::ManifestAssertion).\n\n See <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_claim_review>.",
       "type": "object",
       "required": [
         "explanation",

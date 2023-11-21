@@ -26,7 +26,7 @@ The schema in `ManifestStore_schema_edited.json` has the following manual edits:
 - Corrected issues with missing or mis-formatted shortlinks in descriptions.
 - Removed `Manifest.claim_generator_hints` property.
 - Removed `DateT` object and modified the one property that referred to it, `Metadata.dateTime` to specify a date/time string with ISO 8601 format.
-
+- Edited `ReviewRating` description to use regular markdown link rather than shortlink, which doesn't render properly within fenced HTML paragraph.
 
 ### How to update the JSON schema
 
