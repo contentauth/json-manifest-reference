@@ -38,10 +38,10 @@
 </td>
 
 <!-- Description -->
-<td class="manifest-ref-table">{{property.last.description|markdownify}}
+<td class="manifest-ref-table">{{property.last.description|markdownify | strip_html}}
 {% if property.last.additionalProperties %}
   {% assign href=property.last.additionalProperties.first[1] %}
-  See {% include ref-to-link.html ref=href %}
+  <br/>See {% include ref-to-link.html ref=href %}
 {% endif %}
 </td>
 
