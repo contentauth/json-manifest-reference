@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ManifestStore",
-  "description": "A Container for a set of Manifests and a ValidationStatus list",
+  "description": "A Container for a set of Manifests and a ValidationStatus list.",
   "type": "object",
   "required": [
     "manifests"
