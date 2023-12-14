@@ -18,6 +18,10 @@ The reference documentation is generated from JSON schema files in the `_data` d
 - [`/_data/ManifestStore_schema_annotated.json`](./_data/ManifestStore_schema_annotated.json) is a copy of `ManifestStore_schema.json` with comments addressed to the dev team added to description fields.  This file is used to generate the [annotated manifest store reference](https://contentauth.github.io/json-manifest-reference/annotated-manifest-reference) 
 - [`/_data/ManifestStore_schema_edited.json`](./_data/ManifestStore_schema_edited.json) is a temporary copy of `ManifestStore_schema.json` with manual edits to the schema to address some of the issues raised above.  These issues _should_ be addressed in the source code and in the schema generation; but until they are, this file is used to generate the reference doc.  See below for details.
 
+## GitHub workflow
+
+To trigger the GH action, change `_data/ManifestStore_schema_edited.json`. This will create a PR to update <https://opensource.contentauthenticity.org/docs/manifest/manifest-ref/>.
+
 ### Schema manual edits
 
 The schema in `ManifestStore_schema_edited.json` has the following manual edits:

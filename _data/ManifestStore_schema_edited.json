@@ -8,7 +8,7 @@
   ],
   "properties": {
     "active_manifest": {
-      "description": "A label for the active (most recent) manifest in the store",
+      "description": "A label for the active (most recent) manifest in the store.",
       "type": [
         "string",
         "null"
