@@ -46,9 +46,6 @@ jobs:
       - name: Modify HTML file and place it in the OSS repo 
         if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
         run : cat ./_site/reference-cai.html | pup 'body' > './manifest-repo/docs/manifest/reference-cai.html'
-      - name: Move css file to OSS repo 
-        if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
-        run : cp './_site/css/cai-addon.css' './manifest-repo/docs/manifest/cai-addon.css'
       - name: Open PR in OSS 
         if: steps.changed-files-specific.outputs.workflow_modified_files == '_data/ManifestStore_schema_edited.json'
         uses: peter-evans/create-pull-request@v5
