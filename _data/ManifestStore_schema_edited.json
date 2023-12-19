@@ -136,7 +136,7 @@
       }
     },
     "HashedUri": {
-      "description": "Hashed Uri structure as defined by C2PA spec It is annotated to produce the correctly tagged cbor serialization",
+      "description": "Hashed Uri structure as defined by C2PA spec. It is annotated to produce the correctly tagged cbor serialization.",
       "type": "object",
       "required": [
         "hash",
