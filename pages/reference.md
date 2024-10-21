@@ -1,10 +1,16 @@
-{% if include.comments %}
+{% if include.annotated %} <!-- annotated schema -->
   {% assign schema = site.data.ManifestStore_schema_annotated %}
-{% else if include.edits %}
+  GETTING `site.data.ManifestStore_schema_annotated`
+
+{% elsif include.edits %} <!-- modified schema -->
   {% assign schema = site.data.ManifestStore_schema_edited %}
-{% else %}
+  GETTING `site.data.ManifestStore_schema_edited`
+
+{% else %} <!-- unmodified schema -->
   {% assign schema = site.data.ManifestStore_schema %}
+
 {% endif %}
+
 
 ## ManifestStore
 
@@ -38,7 +44,7 @@
 </td>
 
 <!-- Description -->
-<td class="manifest-ref-table">{{property.last.description|markdownify | strip_html}}
+<td class="manifest-ref-table">{{property.last.description|markdownify }}
 {% if property.last.additionalProperties %}
   {% assign href=property.last.additionalProperties.first[1] %}
   <br/>See {% include ref-to-link.html ref=href %}
@@ -87,6 +93,29 @@
 ### {{term.first}}
 
 {% assign entity = term.last %}
+
+{% if entity.oneOf %}
+
+{{entity.description}}
+
+<table class="manifest-ref-table" style="margin-top: 10px;">
+<thead><tr>
+<th class="manifest-ref-table">{{term.first}}</th>
+<th class="manifest-ref-table">Type</th>
+<th class="manifest-ref-table">Description</th>
+</tr></thead>
+
+<tbody>
+{% for things in entity.oneOf %}
+<tr>
+<td class="manifest-ref-table">{% for i in things.enum %} {{things.enum}}  {% endfor %}</td>
+<td class="manifest-ref-table">{{things.type}}</td>
+<td class="manifest-ref-table">{% include description.html str=things.description %} </td>
+</tr>
+{%- endfor -%}
+</tbody></table>
+
+{% endif %} <!-- end of oneOf entity -->
 
 {% if entity.type=="object" and entity.properties -%}
 
