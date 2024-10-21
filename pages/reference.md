@@ -1,10 +1,8 @@
 {% if include.annotated %} <!-- annotated schema -->
   {% assign schema = site.data.ManifestStore_schema_annotated %}
-  GETTING `site.data.ManifestStore_schema_annotated`
 
 {% elsif include.edits %} <!-- modified schema -->
   {% assign schema = site.data.ManifestStore_schema_edited %}
-  GETTING `site.data.ManifestStore_schema_edited`
 
 {% else %} <!-- unmodified schema -->
   {% assign schema = site.data.ManifestStore_schema %}

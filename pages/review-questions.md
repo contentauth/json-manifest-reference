@@ -13,6 +13,7 @@ The schema in `ManifestStore_schema_edited.json` has the following manual edits:
 - Removed `DateT` object and modified the one property that referred to it, `Metadata.dateTime` to specify a date/time string with ISO 8601 format.
 - Edited `ReviewRating` description to use regular markdown link rather than shortlink, which doesn't render properly within fenced HTML paragraph.
 - Corrected issues with missing or mis-formatted shortlinks in descriptions.
+- Updated links to C2PA spec to version 1.4 from version 1.0.
 
 ### Punctuation
 

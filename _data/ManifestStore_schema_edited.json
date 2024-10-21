@@ -640,28 +640,28 @@
       "description": "The type of range for the region of interest.",
       "oneOf": [
         {
-          "description": "A spatial range, see [`Shape`](crate::assertions::region_of_interest:Shape) for more details.\n\n",
+          "description": "A spatial range, see [`Shape`](#Shape) for more details.\n\n",
           "type": "string",
           "enum": [
             "spatial"
           ]
         },
         {
-          "description": "A temporal range, see [`Time`] for more details.",
+          "description": "A temporal range, see [`Time`](#Time) for more details.",
           "type": "string",
           "enum": [
             "temporal"
           ]
         },
         {
-          "description": "A spatial range, see [`Frame`] for more details.",
+          "description": "A spatial range, see [`Frame`](#Frame) for more details.",
           "type": "string",
           "enum": [
             "frame"
           ]
         },
         {
-          "description": "A textual range, see [`Text`] for more details.",
+          "description": "A textual range, see [`Text`](#Text) for more details.",
           "type": "string",
           "enum": [
             "textual"
@@ -670,7 +670,7 @@
       ]
     },
     "RegionOfInterest": {
-      "description": "A region of interest within an asset describing the change.\n\nThis struct can be used from [`Action::changes`](crate::assertions::Action::changes) or [`Metadata::region_of_interest`](crate::assertions::Metadata::region_of_interest).",
+      "description": "A region of interest within an asset describing the change.\n\nThis struct can be used from [`Action::changes`](https://docs.rs/c2pa/latest/c2pa/assertions/struct.Action.html#method.changes) or [`Metadata::region_of_interest`](https://docs.rs/c2pa/latest/c2pa/assertions/struct.Metadata.html#method.region_of_interest).",
       "type": "object",
       "required": [
         "region"
@@ -744,7 +744,7 @@
       ]
     },
     "ResourceRef": {
-      "description": "A reference to a resource to be used in JSON serialization.\n\nThe underlying data can be read as a stream via [`Reader::resource_to_stream`][crate::Reader::resource_to_stream].",
+      "description": "A reference to a resource to be used in JSON serialization.\n\nThe underlying data can be read as a stream via [`Reader::resource_to_stream`](https://docs.rs/c2pa/latest/c2pa/struct.Reader.html#method.resource_to_stream).",
       "type": "object",
       "required": [
         "format",
@@ -1017,7 +1017,7 @@
       }
     },
     "SigningAlg": {
-      "description": "Describes the digital signature algorithms allowed by the C2PA spec.\n\nPer <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_digital_signatures>:\n\n> All digital signatures that are stored in a C2PA Manifest shall > be generated using one of the digital signature algorithms and > key types listed as described in this section.",
+      "description": "Describes the digital signature algorithms allowed by the [C2PA spec](https://c2pa.org/specifications/specifications/1.4/specs/C2PA_Specification.html#_digital_signatures):\n\n> All digital signatures that are stored in a C2PA Manifest shall be generated using one of the digital signature algorithms and key types listed as described in this section.",
       "oneOf": [
         {
           "description": "ECDSA with SHA-256",
@@ -1116,7 +1116,7 @@
       }
     },
     "TextSelectorRange": {
-      "description": "One or two [`TextSelector`][TextSelector] identifiying the range to select.",
+      "description": "One or two [`TextSelector`](#TextSelector) identifying the range to select.",
       "type": "object",
       "required": [
         "selector"
@@ -1214,7 +1214,7 @@
       ]
     },
     "ValidationStatus": {
-      "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.",
+      "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.4/specs/C2PA_Specification.html#_existing_manifests>.",
       "type": "object",
       "required": [
         "code"
