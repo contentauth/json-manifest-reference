@@ -133,7 +133,7 @@
       ],
       "properties": {
         "actors": {
-          "description": "A list of [`Actor`]s associated with this source.",
+          "description": "A list of [`Actor`](#actor)s associated with this source.",
           "type": [
             "array",
             "null"
