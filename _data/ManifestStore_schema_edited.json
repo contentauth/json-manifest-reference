@@ -1,14 +1,14 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ManifestStore",
-  "description": "A Container for a set of Manifests and a ValidationStatus list.",
+  "description": "A Container for a set of Manifests and a ValidationStatus list",
   "type": "object",
   "required": [
     "manifests"
   ],
   "properties": {
     "active_manifest": {
-      "description": "A label for the active (most recent) manifest in the store.",
+      "description": "A label for the active (most recent) manifest in the store",
       "type": [
         "string",
         "null"
@@ -105,6 +105,26 @@
       },
       "additionalProperties": true
     },
+    "Coordinate": {
+      "description": "An x, y coordinate used for specifying vertices in polygons.",
+      "type": "object",
+      "required": [
+        "x",
+        "y"
+      ],
+      "properties": {
+        "x": {
+          "description": "The coordinate along the x-axis.",
+          "type": "number",
+          "format": "double"
+        },
+        "y": {
+          "description": "The coordinate along the y-axis.",
+          "type": "number",
+          "format": "double"
+        }
+      }
+    },
     "DataSource": {
       "description": "A description of the source for assertion data",
       "type": "object",
@@ -113,7 +133,7 @@
       ],
       "properties": {
         "actors": {
-          "description": "A list of [`Actor`]s associated with this source.\n\n[`Actor`]: crate::Actor",
+          "description": "A list of [`Actor`](#actor)s associated with this source.",
           "type": [
             "array",
             "null"
@@ -135,8 +155,30 @@
         }
       }
     },
+    "Frame": {
+      "description": "A frame range representing starting and ending frames or pages.\n\nIf both `start` and `end` are missing, the frame will span the entire asset.",
+      "type": "object",
+      "properties": {
+        "end": {
+          "description": "The end of the frame inclusive or the end of the asset if not present.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "start": {
+          "description": "The start of the frame or the end of the asset if not present.\n\nThe first frame/page starts at 0.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        }
+      }
+    },
     "HashedUri": {
-      "description": "Hashed Uri structure as defined by C2PA spec. It is annotated to produce the correctly tagged cbor serialization.",
+      "description": "Hashed Uri structure as defined by C2PA spec It is annotated to produce the correctly tagged cbor serialization",
       "type": "object",
       "required": [
         "hash",
@@ -144,14 +186,12 @@
       ],
       "properties": {
         "alg": {
-          "description": "hash algorithm used (\"sha256\", \"sha384\", \"sha512\")",
           "type": [
             "string",
             "null"
           ]
         },
         "hash": {
-          "description": "\"alg\" hash of stored as cbor byte string",
           "type": "array",
           "items": {
             "type": "integer",
@@ -160,20 +200,19 @@
           }
         },
         "url": {
-          "description": "URI stored as tagged cbor",
           "type": "string"
         }
       }
     },
     "Ingredient": {
-      "description": "An `Ingredient` is any external asset that has been used in the creation of an image.",
+      "description": "An `Ingredient` is any external asset that has been used in the creation of an asset.",
       "type": "object",
       "required": [
         "title"
       ],
       "properties": {
         "active_manifest": {
-          "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`], this will hold the label of the active [`Manifest`].\n\n[`Manifest`]: crate::Manifest \n[`ManifestStore`]: crate::ManifestStore",
+          "description": "The active manifest label (if one exists).\n\nIf this ingredient has a [`ManifestStore`](crate::ManifestStore) , this will hold the label of the active [`Manifest`](crate::Manifest).",
           "type": [
             "string",
             "null"
@@ -189,6 +228,16 @@
               "type": "null"
             }
           ]
+        },
+        "data_types": {
+          "description": "Additional information about the data's type to the ingredient V2 structure.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/AssetType"
+          }
         },
         "description": {
           "description": "Additional description of the ingredient.",
@@ -242,7 +291,7 @@
           ]
         },
         "metadata": {
-          "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Metadata`]: crate::Metadata",
+          "description": "Any additional [`Metadata`] as defined in the C2PA spec.\n\n[`Metadata`]: crate::Manifest",
           "anyOf": [
             {
               "$ref": "#/definitions/Metadata"
@@ -269,7 +318,7 @@
           ]
         },
         "thumbnail": {
-          "description": "A thumbnail image capturing the visual state at the time of import.\n\nA tuple of thumbnail MIME format (i.e. `image/jpeg`) and binary bits of the image.",
+          "description": "A thumbnail image capturing the visual state at the time of import.\n\nA tuple of thumbnail MIME format (for example `image/jpeg`) and binary bits of the image.",
           "anyOf": [
             {
               "$ref": "#/definitions/ResourceRef"
@@ -296,7 +345,7 @@
       }
     },
     "Manifest": {
-      "description": "Represents all the information in a c2pa manifest.",
+      "description": "A Manifest represents all the information in a c2pa manifest",
       "type": "object",
       "properties": {
         "assertions": {
@@ -308,11 +357,12 @@
           }
         },
         "claim_generator": {
-          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim. Spaces are not allowed in names, versions can be specified with product/1.0 syntax",
-          "default": "c2pa/0.25.2",
+          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax",
+          "default": "c2pa/0.36.3",
           "type": "string"
         },
         "claim_generator_info": {
+          "description": "A list of claim generator info data identifying the software/hardware/system produced this claim",
           "type": [
             "array",
             "null"
@@ -322,12 +372,12 @@
           }
         },
         "credentials": {
-          "description": "An array of [W3C Verifiable Credentials](https://verifiablecredentials.dev/). See also the [W3C Recommendation](https://www.w3.org/TR/vc-data-model/). NOTE: This area is under active development and may change.  ",
+          "description": "A List of verified credentials",
           "type": [
             "array",
             "null"
           ],
-          "items": "object"
+          "items": true
         },
         "format": {
           "description": "The format of the source file as a MIME type.",
@@ -344,7 +394,7 @@
         },
         "instance_id": {
           "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-          "default": "xmp:iid:3b9389f3-0bcb-4554-9a3c-1ab73ac5b81c",
+          "default": "xmp:iid:eafef862-379d-44a1-99f7-2ead485e279d",
           "type": "string"
         },
         "label": {
@@ -352,6 +402,16 @@
             "string",
             "null"
           ]
+        },
+        "metadata": {
+          "description": "A list of user metadata for this claim",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Metadata"
+          }
         },
         "redactions": {
           "description": "A list of redactions - URIs to a redacted assertions",
@@ -426,7 +486,7 @@
           "minimum": 0.0
         },
         "kind": {
-          "description": "The [`ManifestAssertionKind`] for this assertion (as stored in c2pa content).\n\n[`ManifestAssertionKind`]: crate::ManifestAssertionKind  ",
+          "description": "The [ManifestAssertionKind](crate::ManifestAssertionKind) for this assertion (as stored in c2pa content)",
           "anyOf": [
             {
               "$ref": "#/definitions/ManifestAssertionKind"
@@ -469,7 +529,7 @@
       "description": "The Metadata structure can be used as part of other assertions or on its own to reference others",
       "type": "object",
       "properties": {
-        "data_source": {
+        "dataSource": {
           "anyOf": [
             {
               "$ref": "#/definitions/DataSource"
@@ -493,6 +553,16 @@
             }
           ]
         },
+        "regionOfInterest": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/RegionOfInterest"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "reviewRatings": {
           "type": [
             "array",
@@ -505,6 +575,166 @@
       },
       "additionalProperties": true
     },
+    "Range": {
+      "description": "A spatial, temporal, frame, or textual range describing the region of interest.",
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "frame": {
+          "description": "A frame range.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Frame"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "shape": {
+          "description": "A spatial range.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Shape"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "text": {
+          "description": "A textual range.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Text"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "time": {
+          "description": "A temporal range.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Time"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {
+          "description": "The type of range of interest.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/RangeType"
+            }
+          ]
+        }
+      }
+    },
+    "RangeType": {
+      "description": "The type of range for the region of interest.",
+      "oneOf": [
+        {
+          "description": "A spatial range, see [`Shape`](#Shape) for more details.\n\n",
+          "type": "string",
+          "enum": [
+            "spatial"
+          ]
+        },
+        {
+          "description": "A temporal range, see [`Time`](#Time) for more details.",
+          "type": "string",
+          "enum": [
+            "temporal"
+          ]
+        },
+        {
+          "description": "A spatial range, see [`Frame`](#Frame) for more details.",
+          "type": "string",
+          "enum": [
+            "frame"
+          ]
+        },
+        {
+          "description": "A textual range, see [`Text`](#Text) for more details.",
+          "type": "string",
+          "enum": [
+            "textual"
+          ]
+        }
+      ]
+    },
+    "RegionOfInterest": {
+      "description": "A region of interest within an asset describing the change.\n\nThis struct can be used from [`Action::changes`](https://docs.rs/c2pa/latest/c2pa/assertions/struct.Action.html#method.changes) or [`Metadata::region_of_interest`](https://docs.rs/c2pa/latest/c2pa/assertions/struct.Metadata.html#method.region_of_interest).",
+      "type": "object",
+      "required": [
+        "region"
+      ],
+      "properties": {
+        "description": {
+          "description": "A free-text string.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "identifier": {
+          "description": "A free-text string representing a machine-readable, unique to this assertion, identifier for the region.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "metadata": {
+          "description": "Additional information about the asset.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Metadata"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "name": {
+          "description": "A free-text string representing a human-readable name for the region which might be used in a user interface.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "region": {
+          "description": "A range describing the region of interest for the specific asset.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Range"
+          }
+        },
+        "role": {
+          "description": "A value from our controlled vocabulary or an entity-specific value (e.g., com.litware.coolArea) that represents the role of a region among other regions.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/Role"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "type": {
+          "description": "A value from a controlled vocabulary such as <https://cv.iptc.org/newscodes/imageregiontype/> or an entity-specific value (e.g., com.litware.newType) that represents the type of thing(s) depicted by a region.\n\nNote this field serializes/deserializes into the name `type`.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
     "Relationship": {
       "type": "string",
       "enum": [
@@ -514,14 +744,22 @@
       ]
     },
     "ResourceRef": {
-      "description": "A reference to a resource to be used in JSON serialization",
+      "description": "A reference to a resource to be used in JSON serialization.\n\nThe underlying data can be read as a stream via [`Reader::resource_to_stream`](https://docs.rs/c2pa/latest/c2pa/struct.Reader.html#method.resource_to_stream).",
       "type": "object",
       "required": [
         "format",
         "identifier"
       ],
       "properties": {
+        "alg": {
+          "description": "The algorithm used to hash the resource (if applicable).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "data_types": {
+          "description": "More detailed data types as defined in the C2PA spec.",
           "type": [
             "array",
             "null"
@@ -531,15 +769,24 @@
           }
         },
         "format": {
+          "description": "The mime type of the referenced resource.",
           "type": "string"
         },
+        "hash": {
+          "description": "The hash of the resource (if applicable).",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
         "identifier": {
+          "description": "A URI that identifies the resource as referenced from the manifest.\n\nThis may be a JUMBF URI, a file path, a URL or any other string. Relative JUMBF URIs will be resolved with the manifest label. Relative file paths will be resolved with the base path if provided.",
           "type": "string"
         }
       }
     },
     "ReviewRating": {
-      "description": "A rating on an [`Assertion`](crate::ManifestAssertion).\n\n See <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_claim_review>.",
+      "description": "A rating on an [`Assertion`](crate::ManifestAssertion).\n\n See [Review Ratings in C2PA spec](https://c2pa.org/specifications/specifications/1.4/specs/C2PA_Specification.html#_review_ratings.)",
       "type": "object",
       "required": [
         "explanation",
@@ -562,10 +809,183 @@
         }
       }
     },
+    "Role": {
+      "description": "A role describing the region.",
+      "oneOf": [
+        {
+          "description": "Arbitrary area worth identifying.",
+          "type": "string",
+          "enum": [
+            "c2pa.areaOfInterest"
+          ]
+        },
+        {
+          "description": "This area is all that is left after a crop action.",
+          "type": "string",
+          "enum": [
+            "c2pa.cropped"
+          ]
+        },
+        {
+          "description": "This area has had edits applied to it.",
+          "type": "string",
+          "enum": [
+            "c2pa.edited"
+          ]
+        },
+        {
+          "description": "The area where an ingredient was placed/added.",
+          "type": "string",
+          "enum": [
+            "c2pa.placed"
+          ]
+        },
+        {
+          "description": "Something in this area was redacted.",
+          "type": "string",
+          "enum": [
+            "c2pa.redacted"
+          ]
+        },
+        {
+          "description": "Area specific to a subject (human or not).",
+          "type": "string",
+          "enum": [
+            "c2pa.subjectArea"
+          ]
+        },
+        {
+          "description": "A range of information was removed/deleted.",
+          "type": "string",
+          "enum": [
+            "c2pa.deleted"
+          ]
+        },
+        {
+          "description": "Styling was applied to this area.",
+          "type": "string",
+          "enum": [
+            "c2pa.styled"
+          ]
+        },
+        {
+          "description": "Invisible watermarking was applied to this area for the purpose of soft binding.",
+          "type": "string",
+          "enum": [
+            "c2pa.watermarked"
+          ]
+        }
+      ]
+    },
+    "Shape": {
+      "description": "A spatial range representing rectangle, circle, or a polygon.",
+      "type": "object",
+      "required": [
+        "origin",
+        "type",
+        "unit"
+      ],
+      "properties": {
+        "height": {
+          "description": "The height of a rectnagle.\n\nThis field can be ignored for circles and polygons.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        },
+        "inside": {
+          "description": "If the range is inside the shape.\n\nThe default value is true.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "origin": {
+          "description": "THe origin of the coordinate in the shape.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/Coordinate"
+            }
+          ]
+        },
+        "type": {
+          "description": "The type of shape.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ShapeType"
+            }
+          ]
+        },
+        "unit": {
+          "description": "The type of unit for the shape range.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/UnitType"
+            }
+          ]
+        },
+        "vertices": {
+          "description": "The vertices of the polygon.\n\nThis field can be ignored for rectangles and circles.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Coordinate"
+          }
+        },
+        "width": {
+          "description": "The width for rectangles or diameter for circles.\n\nThis field can be ignored for polygons.",
+          "type": [
+            "number",
+            "null"
+          ],
+          "format": "double"
+        }
+      }
+    },
+    "ShapeType": {
+      "description": "The type of shape for the range.",
+      "oneOf": [
+        {
+          "description": "A rectangle.",
+          "type": "string",
+          "enum": [
+            "rectangle"
+          ]
+        },
+        {
+          "description": "A circle.",
+          "type": "string",
+          "enum": [
+            "circle"
+          ]
+        },
+        {
+          "description": "A polygon.",
+          "type": "string",
+          "enum": [
+            "polygon"
+          ]
+        }
+      ]
+    },
     "SignatureInfo": {
       "description": "Holds information about a signature",
       "type": "object",
       "properties": {
+        "alg": {
+          "description": "human readable issuing authority for this signature",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SigningAlg"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
         "cert_serial_number": {
           "description": "The serial number of the certificate",
           "type": [
@@ -580,6 +1000,13 @@
             "null"
           ]
         },
+        "revocation_status": {
+          "description": "revocation status of the certificate",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
         "time": {
           "description": "the time the signature was created",
           "type": [
@@ -588,6 +1015,193 @@
           ]
         }
       }
+    },
+    "SigningAlg": {
+      "description": "Describes the digital signature algorithms allowed by the [C2PA spec](https://c2pa.org/specifications/specifications/1.4/specs/C2PA_Specification.html#_digital_signatures):\n\n> All digital signatures that are stored in a C2PA Manifest shall be generated using one of the digital signature algorithms and key types listed as described in this section.",
+      "oneOf": [
+        {
+          "description": "ECDSA with SHA-256",
+          "type": "string",
+          "enum": [
+            "Es256"
+          ]
+        },
+        {
+          "description": "ECDSA with SHA-384",
+          "type": "string",
+          "enum": [
+            "Es384"
+          ]
+        },
+        {
+          "description": "ECDSA with SHA-512",
+          "type": "string",
+          "enum": [
+            "Es512"
+          ]
+        },
+        {
+          "description": "RSASSA-PSS using SHA-256 and MGF1 with SHA-256",
+          "type": "string",
+          "enum": [
+            "Ps256"
+          ]
+        },
+        {
+          "description": "RSASSA-PSS using SHA-384 and MGF1 with SHA-384",
+          "type": "string",
+          "enum": [
+            "Ps384"
+          ]
+        },
+        {
+          "description": "RSASSA-PSS using SHA-512 and MGF1 with SHA-512",
+          "type": "string",
+          "enum": [
+            "Ps512"
+          ]
+        },
+        {
+          "description": "Edwards-Curve DSA (Ed25519 instance only)",
+          "type": "string",
+          "enum": [
+            "Ed25519"
+          ]
+        }
+      ]
+    },
+    "Text": {
+      "description": "A textual range representing multiple (possibly discontinuous) ranges of text.",
+      "type": "object",
+      "required": [
+        "selectors"
+      ],
+      "properties": {
+        "selectors": {
+          "description": "The ranges of text to select.",
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/TextSelectorRange"
+          }
+        }
+      }
+    },
+    "TextSelector": {
+      "description": "Selects a range of text via a fragment identifier.\n\nThis is modeled after the W3C Web Annotation selector model.",
+      "type": "object",
+      "required": [
+        "fragment"
+      ],
+      "properties": {
+        "end": {
+          "description": "The end character offset or the end of the fragment if not present.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        },
+        "fragment": {
+          "description": "Fragment identifier as per RFC3023 (XML) or ISO 32000-2 (PDF), Annex O.",
+          "type": "string"
+        },
+        "start": {
+          "description": "The start character offset or the start of the fragment if not present.",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "int32"
+        }
+      }
+    },
+    "TextSelectorRange": {
+      "description": "One or two [`TextSelector`](#TextSelector) identifying the range to select.",
+      "type": "object",
+      "required": [
+        "selector"
+      ],
+      "properties": {
+        "end": {
+          "description": "The end of the text range.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/TextSelector"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "selector": {
+          "description": "The start (or entire) text range.",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TextSelector"
+            }
+          ]
+        }
+      }
+    },
+    "Time": {
+      "description": "A temporal range representing a starting time to an ending time.",
+      "type": "object",
+      "properties": {
+        "end": {
+          "description": "The end time or the end of the asset if not present.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "start": {
+          "description": "The start time or the start of the asset if not present.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {
+          "description": "The type of time.",
+          "default": "npt",
+          "allOf": [
+            {
+              "$ref": "#/definitions/TimeType"
+            }
+          ]
+        }
+      }
+    },
+    "TimeType": {
+      "description": "The type of time.",
+      "oneOf": [
+        {
+          "description": "Times are described using Normal Play Time (npt) as described in RFC 2326.",
+          "type": "string",
+          "enum": [
+            "npt"
+          ]
+        }
+      ]
+    },
+    "UnitType": {
+      "description": "The type of unit for the range.",
+      "oneOf": [
+        {
+          "description": "Use pixels.",
+          "type": "string",
+          "enum": [
+            "pixel"
+          ]
+        },
+        {
+          "description": "Use percentage.",
+          "type": "string",
+          "enum": [
+            "percent"
+          ]
+        }
+      ]
     },
     "UriOrResource": {
       "anyOf": [
@@ -600,25 +1214,22 @@
       ]
     },
     "ValidationStatus": {
-      "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.",
+      "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.4/specs/C2PA_Specification.html#_existing_manifests>.",
       "type": "object",
       "required": [
         "code"
       ],
       "properties": {
         "code": {
-          "description": "Validation status code.",
           "type": "string"
         },
         "explanation": {
-          "description": "Human-readable description of the validation that was performed.",
           "type": [
             "string",
             "null"
           ]
         },
         "url": {
-          "description": "Internal JUMBF reference to the entity that was validated.",
           "type": [
             "string",
             "null"

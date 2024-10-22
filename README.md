@@ -14,23 +14,28 @@ See the rendered site at <https://contentauth.github.io/json-manifest-reference/
 ## Implementation
 
 The reference documentation is generated from JSON schema files in the `_data` directory:
-- [`/_data/ManifestStore_schema.json`](./_data/ManifestStore_schema.json) is the canonical file generated from the source code by the dev team.
+- [`/_data/ManifestStore_schema.json`](./_data/ManifestStore_schema.json) is the canonical file generated from the source code in c2pa-rs (see below).
 - [`/_data/ManifestStore_schema_annotated.json`](./_data/ManifestStore_schema_annotated.json) is a copy of `ManifestStore_schema.json` with comments addressed to the dev team added to description fields.  This file is used to generate the [annotated manifest store reference](https://contentauth.github.io/json-manifest-reference/annotated-manifest-reference) 
 - [`/_data/ManifestStore_schema_edited.json`](./_data/ManifestStore_schema_edited.json) is a temporary copy of `ManifestStore_schema.json` with manual edits to the schema to address some of the issues raised above.  These issues _should_ be addressed in the source code and in the schema generation; but until they are, this file is used to generate the reference doc.  See below for details.
+
+### Generating the schema from the Rust library
+
+In c2pa-rs, run this command to generate the schema file:
+
+```
+make schema
+```
+
+Or you can do it manually with this command:
+```
+cargo run --bin export_schema
+```
+
+This creates the schema file in `target/schema/ManifestStore.schema.json`.
 
 ## GitHub workflow
 
 To trigger the GH action, change `_data/ManifestStore_schema_edited.json`. This will create a PR to update <https://opensource.contentauthenticity.org/docs/manifest/manifest-ref/>.
-
-### Schema manual edits
-
-The schema in `ManifestStore_schema_edited.json` has the following manual edits:
-- `ResourceStore` object definition removed.
-- Properties of type `ResourceStore` are removed: `Ingredient.resources` and `Manifest.resources`.
-- Corrected issues with missing or mis-formatted shortlinks in descriptions.
-- Removed `Manifest.claim_generator_hints` property.
-- Removed `DateT` object and modified the one property that referred to it, `Metadata.dateTime` to specify a date/time string with ISO 8601 format.
-- Edited `ReviewRating` description to use regular markdown link rather than shortlink, which doesn't render properly within fenced HTML paragraph.
 
 ### How to update the JSON schema
 

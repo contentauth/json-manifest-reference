@@ -4,13 +4,24 @@ permalink: review-questions
 layout: page
 ---
 
+### Schema manual edits
+
+The schema in `ManifestStore_schema_edited.json` has the following manual edits:
+- `ResourceStore` object definition removed.
+- Properties of type `ResourceStore` are removed: `Ingredient.resources` and `Manifest.resources`.
+- Removed `Manifest.claim_generator_hints` property.
+- Removed `DateT` object and modified the one property that referred to it, `Metadata.dateTime` to specify a date/time string with ISO 8601 format.
+- Edited `ReviewRating` description to use regular markdown link rather than shortlink, which doesn't render properly within fenced HTML paragraph.
+- Corrected issues with missing or mis-formatted shortlinks in descriptions.
+- Updated links to C2PA spec to version 1.4 from version 1.0.
+
 ### Punctuation
 
 Many of the descriptions need a period at the end. Some have other minor spelling/punctuation issues; for example, the first word of the description should always be capitalized.
 
 ### Reference-style links
 
-I manually fixed these issues in `_data/ManifestStore_scheam_edited.json`, which is currently used to generated the [manifest reference](/manifest-reference).
+I manually fixed these issues in `_data/ManifestStore_schema_edited.json`, which is currently used to generated the [manifest reference](/manifest-reference).
 {: .note}
 
 Some descriptions have [reference-style links](https://www.markdownguide.org/basic-syntax/#reference-style-links) like this:
