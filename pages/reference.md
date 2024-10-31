@@ -69,9 +69,9 @@
 <tr>
 <td style="border: 0; vertical-align: top;">
 {%- for term in schema.definitions -%}
-{% assign i = forloop.index0|modulo: 5 %}
+{% assign i = forloop.index0|modulo: 7 %}
 <a href="{{term.first | slugify | prepend: "#"}}">{{term.first}}</a>  <br/>
-{% if i == 4 %}
+{% if i == 6 %}
 </td>
 {% unless forloop.last %}
 <td style="border: 0; vertical-align: top;">

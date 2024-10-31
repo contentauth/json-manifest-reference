@@ -1,28 +1,28 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ManifestStore",
-  "description": "A Container for a set of Manifests and a ValidationStatus list",
+  "description": "A Container for a set of Manifests and a ValidationStatus list.",
   "type": "object",
   "required": [
     "manifests"
   ],
   "properties": {
     "active_manifest": {
-      "description": "A label for the active (most recent) manifest in the store",
+      "description": "A label for the active (most recent) manifest in the store.",
       "type": [
         "string",
         "null"
       ]
     },
     "manifests": {
-      "description": "A HashMap of Manifests",
+      "description": "A HashMap of Manifests.",
       "type": "object",
       "additionalProperties": {
         "$ref": "#/definitions/Manifest"
       }
     },
     "validation_status": {
-      "description": "ValidationStatus generated when loading the ManifestStore from an asset",
+      "description": "ValidationStatus generated when loading the ManifestStore from an asset.",
       "type": [
         "array",
         "null"
