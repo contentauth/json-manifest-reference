@@ -74,7 +74,7 @@
       }
     },
     "ClaimGeneratorInfo": {
-      "description": "Description of the claim generator, or the software used in generating the claim.\n\nThis structure is also used for actions softwareAgent.",
+      "description": "Description of the claim generator, or the software used in generating the claim.\n\nThis structure is also used for actions softwareAgent",
       "type": "object",
       "required": [
         "name"
@@ -133,7 +133,7 @@
       ],
       "properties": {
         "actors": {
-          "description": "A list of [`Actor`](#actor)s associated with this source.",
+          "description": "A list of [`Actor`]s associated with this source.",
           "type": [
             "array",
             "null"
@@ -640,28 +640,28 @@
       "description": "The type of range for the region of interest.",
       "oneOf": [
         {
-          "description": "A spatial range, see [`Shape`](#Shape) for more details.\n\n",
+          "description": "A spatial range, see [`Shape`](#shape) for more details.\n\n",
           "type": "string",
           "enum": [
             "spatial"
           ]
         },
         {
-          "description": "A temporal range, see [`Time`](#Time) for more details.",
+          "description": "A temporal range, see [`Time`](#time) for more details.",
           "type": "string",
           "enum": [
             "temporal"
           ]
         },
         {
-          "description": "A spatial range, see [`Frame`](#Frame) for more details.",
+          "description": "A spatial range, see [`Frame`](#frame) for more details.",
           "type": "string",
           "enum": [
             "frame"
           ]
         },
         {
-          "description": "A textual range, see [`Text`](#Text) for more details.",
+          "description": "A textual range, see [`Text`](#text) for more details.",
           "type": "string",
           "enum": [
             "textual"
@@ -1116,7 +1116,7 @@
       }
     },
     "TextSelectorRange": {
-      "description": "One or two [`TextSelector`](#TextSelector) identifying the range to select.",
+      "description": "One or two [`TextSelector`](#textselector) objects identifying the range to select.",
       "type": "object",
       "required": [
         "selector"

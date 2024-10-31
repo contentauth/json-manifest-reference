@@ -36,7 +36,7 @@ an object like {"$ref"=>"#/definitions/xyz"}.
     {% else %}
       {% unless x=="null" %}
         {{x|capitalize}} <!-- {% comment %} Assumes that the type is not another array or object {% endcomment %} -->
-        <br/>{%if obj.format %} Format: {{obj.format}} <br/>Minimum: {{obj.minimum}} {%endif%}
+        {%if obj.format %} ({{obj.format}}) {%if obj.minimum %}<br/>Minimum: {{obj.minimum}} {%endif%} {%endif%}
       {% endunless %}
 
     {% endif %}
