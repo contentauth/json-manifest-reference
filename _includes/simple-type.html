@@ -4,12 +4,12 @@
 {% elsif include.obj.type == "number" %}
   Number
   {% if include.obj.format %}
-    FORMAT = {{include.obj.format}}
+    / {{include.obj.format}}
   {%endif%}
 
 {% elsif include.obj.type == "integer" %}
   Integer
-  {% if include.obj.format %} <br/>Format: {{obj.format}} {% endif %}
+  {% if include.obj.format %} ({{obj.format}}) {% endif %}
   {% if include.obj.minimum %} <br/>Minimum: {{obj.minimum}} {% endif %}
 
 {% elsif include.obj.type == "boolean" %}
