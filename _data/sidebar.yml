@@ -9,6 +9,12 @@ children:
     - title: Reference with CAI styling
       url: reference-cai
 
+    - title: NEW manifest definition ref.
+      url: manifest-def
+
+    - title: NEW manifest def w/CAI stylng
+      url: manifest-def-cai
+
   - title: Reference with comments
     url: annotated-manifest-reference
     children:

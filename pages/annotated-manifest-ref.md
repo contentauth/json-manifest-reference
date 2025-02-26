@@ -11,4 +11,4 @@ This is a work in progress may not be accurate or complete.
 Doc notes from `ManifestStore_schema_annotated.json` are highlighted below.  <br/>See also: [Additional schema questions / comments](review-questions)
 {: .comment}
 
-{% include_relative reference.md annotated="true" %}
+{% include_relative reference.md schema="annotated" %}
