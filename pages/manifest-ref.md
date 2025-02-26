@@ -8,4 +8,4 @@ This page is generated from the unmodified JSON schema and contains some informa
 {: .warning}
 
 {% include_relative manifest-diagram.md %}
-{% include_relative reference.md edits="true" %}
+{% include_relative reference.md %}

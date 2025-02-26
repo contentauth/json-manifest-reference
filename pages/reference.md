@@ -1,16 +1,19 @@
-{% if include.annotated %} <!-- annotated schema -->
-  {% assign schema = site.data.ManifestStore_schema_annotated %}
+{% case include.schema %}
+  {% when "annotated" %}
+    {% assign schema = site.data.ManifestStore_schema_annotated %}
 
-{% elsif include.edits %} <!-- modified schema -->
-  {% assign schema = site.data.ManifestStore_schema_edited %}
+  {% when "edited" %}
+    {% assign schema = site.data.ManifestStore_schema_edited %}
 
-{% else %} <!-- unmodified schema -->
-  {% assign schema = site.data.ManifestStore_schema %}
+  {% when "ManifestDefintion" %}
+    {% assign schema = site.data.ManifestDefinition_schema %}
 
-{% endif %}
+  {% else %}
+    {% assign schema = site.data.ManifestStore_schema %}
 
+{% endcase %}
 
-## ManifestStore
+## {{schema.title}}
 
 {{schema.description}}.
 
