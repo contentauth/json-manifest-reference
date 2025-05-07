@@ -1,108 +1,57 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "ManifestDefinition",
-  "description": "Use a ManifestDefinition to define a manifest and to build a `ManifestStore`. A manifest is a collection of ingredients and assertions used to define a claim that can be signed and embedded into a file.",
+  "title": "Reader",
+  "description": "A reader for the manifest store.",
   "type": "object",
+  "required": [
+    "manifests"
+  ],
   "properties": {
-    "assertions": {
-      "description": "A list of assertions",
-      "default": [],
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/AssertionDefinition"
-      }
-    },
-    "claim_generator_info": {
-      "description": "Claim Generator Info is always required with at least one entry",
-      "default": [
-        {
-          "name": "c2pa-rs",
-          "version": "0.49.5"
-        }
-      ],
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/ClaimGeneratorInfo"
-      }
-    },
-    "claim_version": {
-      "description": "The version of the claim.  Defaults to 1.",
-      "type": [
-        "integer",
-        "null"
-      ],
-      "format": "uint8",
-      "minimum": 0.0
-    },
-    "format": {
-      "description": "The format of the source file as a MIME type.",
-      "default": "application/octet-stream",
-      "type": "string"
-    },
-    "ingredients": {
-      "description": "A List of ingredients",
-      "default": [],
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Ingredient"
-      }
-    },
-    "instance_id": {
-      "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-      "default": "xmp:iid:dde3986c-d7b2-4256-b5dd-acc8ed9aada3",
-      "type": "string"
-    },
-    "label": {
-      "description": "Allows you to pre-define the manifest label, which must be unique. Not intended for general use.  If not set, it will be assigned automatically.",
+    "active_manifest": {
+      "description": "A label for the active (most recent) manifest in the store",
       "type": [
         "string",
         "null"
       ]
     },
-    "metadata": {
-      "description": "Optional manifest metadata. This will be deprecated in the future; not recommended to use.",
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
-        "$ref": "#/definitions/Metadata"
+    "manifests": {
+      "description": "A HashMap of Manifests",
+      "type": "object",
+      "additionalProperties": {
+        "$ref": "#/definitions/Manifest"
       }
     },
-    "redactions": {
-      "description": "A list of redactions - URIs to redacted assertions.",
-      "type": [
-        "array",
-        "null"
-      ],
-      "items": {
-        "type": "string"
-      }
-    },
-    "thumbnail": {
-      "description": "An optional ResourceRef to a thumbnail image that represents the asset that was signed. Must be available when the manifest is signed.",
+    "validation_results": {
+      "description": "ValidationStatus generated when loading the ManifestStore from an asset",
       "anyOf": [
         {
-          "$ref": "#/definitions/ResourceRef"
+          "$ref": "#/definitions/ValidationResults"
         },
         {
           "type": "null"
         }
       ]
     },
-    "title": {
-      "description": "A human-readable title, generally source filename.",
-      "type": [
-        "string",
-        "null"
+    "validation_state": {
+      "description": "The validation state of the manifest store",
+      "anyOf": [
+        {
+          "$ref": "#/definitions/ValidationState"
+        },
+        {
+          "type": "null"
+        }
       ]
     },
-    "vendor": {
-      "description": "Optional prefix added to the generated Manifest Label This is typically a reverse domain name.",
+    "validation_status": {
+      "description": "ValidationStatus generated when loading the ManifestStore from an asset",
       "type": [
-        "string",
+        "array",
         "null"
-      ]
+      ],
+      "items": {
+        "$ref": "#/definitions/ValidationStatus"
+      }
     }
   },
   "definitions": {
@@ -126,28 +75,6 @@
             "string",
             "null"
           ]
-        }
-      }
-    },
-    "AssertionData": {
-      "description": "This allows the assertion to be expressed as CBOR or JSON. The default is CBOR unless you specify that an assertion should be JSON.",
-      "anyOf": [
-        true
-      ]
-    },
-    "AssertionDefinition": {
-      "description": "Defines an assertion that consists of a label that can be either a C2PA-defined assertion label or a custom label in reverse domain format.",
-      "type": "object",
-      "required": [
-        "data",
-        "label"
-      ],
-      "properties": {
-        "data": {
-          "$ref": "#/definitions/AssertionData"
-        },
-        "label": {
-          "type": "string"
         }
       }
     },
@@ -519,6 +446,200 @@
           "type": "string"
         }
       }
+    },
+    "Manifest": {
+      "description": "A Manifest represents all the information in a c2pa manifest",
+      "type": "object",
+      "properties": {
+        "assertions": {
+          "description": "A list of assertions",
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ManifestAssertion"
+          }
+        },
+        "claim_generator": {
+          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim Spaces are not allowed in names, versions can be specified with product/1.0 syntax",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "claim_generator_info": {
+          "description": "A list of claim generator info data identifying the software/hardware/system produced this claim",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/ClaimGeneratorInfo"
+          }
+        },
+        "credentials": {
+          "description": "A List of verified credentials",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": true
+        },
+        "format": {
+          "description": "The format of the source file as a MIME type.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "ingredients": {
+          "description": "A List of ingredients",
+          "default": [],
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Ingredient"
+          }
+        },
+        "instance_id": {
+          "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
+          "default": "xmp:iid:424afed8-279d-4793-a279-b80a00b8c32b",
+          "type": "string"
+        },
+        "label": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "metadata": {
+          "description": "A list of user metadata for this claim",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "$ref": "#/definitions/Metadata"
+          }
+        },
+        "redactions": {
+          "description": "A list of redactions - URIs to a redacted assertions",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items": {
+            "type": "string"
+          }
+        },
+        "resources": {
+          "description": "container for binary assets (like thumbnails)",
+          "readOnly": true,
+          "allOf": [
+            {
+              "$ref": "#/definitions/ResourceStore"
+            }
+          ]
+        },
+        "signature_info": {
+          "description": "Signature data (only used for reporting)",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SignatureInfo"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "thumbnail": {
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ResourceRef"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "title": {
+          "description": "A human-readable title, generally source filename.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vendor": {
+          "description": "Optional prefix added to the generated Manifest Label This is typically Internet domain name for the vendor (i.e. `adobe`)",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "ManifestAssertion": {
+      "description": "A labeled container for an Assertion value in a Manifest",
+      "type": "object",
+      "required": [
+        "data",
+        "label"
+      ],
+      "properties": {
+        "data": {
+          "description": "The data of the assertion as Value",
+          "allOf": [
+            {
+              "$ref": "#/definitions/ManifestData"
+            }
+          ]
+        },
+        "instance": {
+          "description": "There can be more than one assertion for any label",
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint",
+          "minimum": 0.0
+        },
+        "kind": {
+          "description": "The [ManifestAssertionKind] for this assertion (as stored in c2pa content)",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/ManifestAssertionKind"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "label": {
+          "description": "An assertion label in reverse domain format",
+          "type": "string"
+        }
+      }
+    },
+    "ManifestAssertionKind": {
+      "description": "Assertions in C2PA can be stored in several formats",
+      "type": "string",
+      "enum": [
+        "Cbor",
+        "Json",
+        "Binary",
+        "Uri"
+      ]
+    },
+    "ManifestData": {
+      "anyOf": [
+        true,
+        {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "format": "uint8",
+            "minimum": 0.0
+          }
+        }
+      ]
     },
     "Metadata": {
       "description": "The Metadata structure can be used as part of other assertions or on its own to reference others",
@@ -1022,6 +1143,105 @@
         }
       ]
     },
+    "SignatureInfo": {
+      "description": "Holds information about a signature",
+      "type": "object",
+      "properties": {
+        "alg": {
+          "description": "Human-readable issuing authority for this signature.",
+          "anyOf": [
+            {
+              "$ref": "#/definitions/SigningAlg"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "cert_serial_number": {
+          "description": "The serial number of the certificate.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "issuer": {
+          "description": "Human-readable issuing authority for this signature.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "revocation_status": {
+          "description": "Revocation status of the certificate.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "time": {
+          "description": "The time the signature was created.",
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "SigningAlg": {
+      "description": "Describes the digital signature algorithms allowed by the C2PA spec.\n\nPer [§13.2, “Digital Signatures”]:\n\n> All digital signatures applied as per the technical requirements of this > specification shall be generated using one of the digital signature > algorithms and key types listed as described in this section.\n\n[§13.2, “Digital Signatures”]: https://c2pa.org/specifications/specifications/2.1/specs/C2PA_Specification.html#_digital_signatures",
+      "oneOf": [
+        {
+          "description": "ECDSA with SHA-256",
+          "type": "string",
+          "enum": [
+            "Es256"
+          ]
+        },
+        {
+          "description": "ECDSA with SHA-384",
+          "type": "string",
+          "enum": [
+            "Es384"
+          ]
+        },
+        {
+          "description": "ECDSA with SHA-512",
+          "type": "string",
+          "enum": [
+            "Es512"
+          ]
+        },
+        {
+          "description": "RSASSA-PSS using SHA-256 and MGF1 with SHA-256",
+          "type": "string",
+          "enum": [
+            "Ps256"
+          ]
+        },
+        {
+          "description": "RSASSA-PSS using SHA-384 and MGF1 with SHA-384",
+          "type": "string",
+          "enum": [
+            "Ps384"
+          ]
+        },
+        {
+          "description": "RSASSA-PSS using SHA-512 and MGF1 with SHA-512",
+          "type": "string",
+          "enum": [
+            "Ps512"
+          ]
+        },
+        {
+          "description": "Edwards-Curve DSA (Ed25519 instance only)",
+          "type": "string",
+          "enum": [
+            "Ed25519"
+          ]
+        }
+      ]
+    },
     "StatusCodes": {
       "description": "Contains a set of success, informational, and failure validation status codes.",
       "type": "object",
@@ -1218,6 +1438,32 @@
           }
         }
       }
+    },
+    "ValidationState": {
+      "description": "Indicates if the manifest store is valid and trusted.\n\nThe Trusted state implies the manifest store is valid and the active signature is trusted.",
+      "oneOf": [
+        {
+          "description": "Errors were found in the manifest store.",
+          "type": "string",
+          "enum": [
+            "Invalid"
+          ]
+        },
+        {
+          "description": "No errors were found in validation, but the active signature is not trusted.",
+          "type": "string",
+          "enum": [
+            "Valid"
+          ]
+        },
+        {
+          "description": "The manifest store is valid and the active signature is trusted.",
+          "type": "string",
+          "enum": [
+            "Trusted"
+          ]
+        }
+      ]
     },
     "ValidationStatus": {
       "description": "A `ValidationStatus` struct describes the validation status of a specific part of a manifest.\n\nSee <https://c2pa.org/specifications/specifications/1.0/specs/C2PA_Specification.html#_existing_manifests>.",

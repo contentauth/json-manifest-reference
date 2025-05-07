@@ -8,14 +8,26 @@
   {% when "ManifestDefintion" %}
     {% assign schema = site.data.ManifestDefinition_schema %}
 
-  {% else %}
+  {% when "ManifestStore" %}
     {% assign schema = site.data.ManifestStore_schema %}
+
+  {% when "builder" %}
+    {% assign schema = site.data.Builder_schema %}
+
+  {% when "reader" %}
+    {% assign schema = site.data.Reader_schema %}
+
+  {% when "settings" %}
+    {% assign schema = site.data.Settings_schema %}
+
+  {% else %}
+    ERROR - UNKNOWN SCHEMA {{include.schema}}
 
 {% endcase %}
 
 ## {{schema.title}}
 
-{{schema.description}}.
+{% include description.html str=schema.description %}
 
 ### Properties
 
@@ -39,6 +51,7 @@
   Object 
 
 {% else %}
+
   {% include type.html prop_info=property.last %}
 
 {% endif %}
@@ -144,7 +157,9 @@
 <!-- Description -->
 <td class="manifest-ref-table">{%- include description.html str=property.last.description -%}</td>
 
-<td class="manifest-ref-table"> <!-- Required? -->
+<td class="manifest-ref-table"> <!-- Required?  
+property.first = {{property.first}} 
+entity.required = {{entity.required}} -->
 {% include required.html prop=property.first required_list=entity.required %}
 </td>
 
@@ -180,7 +195,7 @@ A string.
 <!-- Not an object, enum, or string, but 'anyOf' -->
 {%- elsif entity.anyOf -%} 
 
-{% include description.html str=entity.last.description %}
+{% include description.html str=entity.description %}
 
 {%- if entity.type -%}A {{entity.type}} that is any of:
 

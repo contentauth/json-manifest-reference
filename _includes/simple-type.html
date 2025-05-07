@@ -26,6 +26,10 @@
   <!-- {% comment %} ZERO = include.obj.items.first[0] ... ONE = include.obj.items.first[1] <br/>  {% endcomment %} -->
   An array of {% include ref-to-link.html ref=array_obj %}
 
+{% else %}
+  {% assign xref=include.obj.first[1] %}
+  {% include ref-to-link.html ref=xref %}
+
 {% endif %}
 
 {% comment %}

@@ -8,9 +8,11 @@ window.onload=function() {
     for (const link of desc_links) {
       if (link.hasAttribute("href") ) {
         let linkStr = link.getAttribute("href");
-        //console.log("Getting href for " + linkStr)
+        console.log("Getting href for " + linkStr)
         if (linkStr.startsWith("crate::") ) {
-          link.setAttribute("href", "#"+ linkStr.substring(7).toLowerCase())
+          let sNewLink = linkStr.substring(7).toLowerCase();
+          console.log("New Link", sNewLink)
+          link.setAttribute("href", "#"+ sNewLink)
         }
       }
     }

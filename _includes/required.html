@@ -1,6 +1,8 @@
 {%- assign isreq=false -%}
 {%- if include.required_list -%}
+<!--  LOOP -->
 {%- for x in include.required_list -%}
+<!-- x = {{x}} include.prop = {{include.prop}} -->
   {%- if include.prop == x -%}
     {%- assign isreq=true -%}
   {%- endif -%}

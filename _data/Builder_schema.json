@@ -1,8 +1,11 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "ManifestDefinition",
-  "description": "Use a ManifestDefinition to define a manifest and to build a `ManifestStore`. A manifest is a collection of ingredients and assertions used to define a claim that can be signed and embedded into a file.",
+  "title": "Builder",
+  "description": "Use a Builder to add a signed manifest to an asset.  NOTE: Code example removed for JSON reference.",
   "type": "object",
+  "required": [
+    "no_embed"
+  ],
   "properties": {
     "assertions": {
       "description": "A list of assertions",
@@ -11,6 +14,13 @@
       "items": {
         "$ref": "#/definitions/AssertionDefinition"
       }
+    },
+    "base_path": {
+      "description": "Base path to search for resources.",
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "claim_generator_info": {
       "description": "Claim Generator Info is always required with at least one entry",
@@ -49,7 +59,7 @@
     },
     "instance_id": {
       "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-      "default": "xmp:iid:dde3986c-d7b2-4256-b5dd-acc8ed9aada3",
+      "default": "xmp:iid:cb616a03-0b69-490f-9e1d-e5e273f218fb",
       "type": "string"
     },
     "label": {
@@ -69,6 +79,10 @@
         "$ref": "#/definitions/Metadata"
       }
     },
+    "no_embed": {
+      "description": "If true, the manifest store will not be embedded in the asset on sign",
+      "type": "boolean"
+    },
     "redactions": {
       "description": "A list of redactions - URIs to redacted assertions.",
       "type": [
@@ -78,6 +92,13 @@
       "items": {
         "type": "string"
       }
+    },
+    "remote_url": {
+      "description": "Optional remote URL for the manifest",
+      "type": [
+        "string",
+        "null"
+      ]
     },
     "thumbnail": {
       "description": "An optional ResourceRef to a thumbnail image that represents the asset that was signed. Must be available when the manifest is signed.",

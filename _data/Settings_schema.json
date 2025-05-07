@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Settings",
+  "type": "object",
+  "required": [
+    "builder",
+    "core",
+    "trust",
+    "verify"
+  ],
+  "properties": {
+    "builder": {
+      "$ref": "#/definitions/Builder"
+    },
+    "core": {
+      "$ref": "#/definitions/Core"
+    },
+    "trust": {
+      "$ref": "#/definitions/Trust"
+    },
+    "verify": {
+      "$ref": "#/definitions/Verify"
+    }
+  },
+  "definitions": {
+    "Builder": {
+      "type": "object",
+      "required": [
+        "auto_thumbnail"
+      ],
+      "properties": {
+        "auto_thumbnail": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Core": {
+      "type": "object",
+      "required": [
+        "compress_manifests",
+        "debug",
+        "hash_alg",
+        "prefer_bmff_merkle_tree",
+        "prefer_box_hash",
+        "salt_jumbf_boxes"
+      ],
+      "properties": {
+        "compress_manifests": {
+          "type": "boolean"
+        },
+        "debug": {
+          "type": "boolean"
+        },
+        "hash_alg": {
+          "type": "string"
+        },
+        "max_memory_usage": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "format": "uint64",
+          "minimum": 0.0
+        },
+        "prefer_bmff_merkle_tree": {
+          "type": "boolean"
+        },
+        "prefer_box_hash": {
+          "type": "boolean"
+        },
+        "salt_jumbf_boxes": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Trust": {
+      "type": "object",
+      "properties": {
+        "allowed_list": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "private_anchors": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "trust_anchors": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "trust_config": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "Verify": {
+      "type": "object",
+      "required": [
+        "check_ingredient_trust",
+        "ocsp_fetch",
+        "remote_manifest_fetch",
+        "verify_after_reading",
+        "verify_after_sign",
+        "verify_trust"
+      ],
+      "properties": {
+        "check_ingredient_trust": {
+          "type": "boolean"
+        },
+        "ocsp_fetch": {
+          "type": "boolean"
+        },
+        "remote_manifest_fetch": {
+          "type": "boolean"
+        },
+        "verify_after_reading": {
+          "type": "boolean"
+        },
+        "verify_after_sign": {
+          "type": "boolean"
+        },
+        "verify_trust": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}
