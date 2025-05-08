@@ -37,6 +37,7 @@
 <th class="manifest-ref-table">Type</th>
 <th class="manifest-ref-table">Description</th>
 <th class="manifest-ref-table">Required?</th>
+<th class="manifest-ref-table">Default Value</th>
 </tr></thead>
 
 <tbody>
@@ -67,6 +68,10 @@
 
 <td class="manifest-ref-table"> <!-- Required? -->
 {% include required.html prop=property.first required_list=required_properties %}
+</td>
+
+<td class="manifest-ref-table"> <!-- Default Value -->
+{% include default-value.html val=property.last.default %}
 </td>
 
 </tr>
@@ -157,20 +162,16 @@
 <!-- Description -->
 <td class="manifest-ref-table">{%- include description.html str=property.last.description -%}</td>
 
-<td class="manifest-ref-table"> <!-- Required?  
-property.first = {{property.first}} 
-entity.required = {{entity.required}} -->
+<!-- Required?  -->
+<td class="manifest-ref-table"> 
 {% include required.html prop=property.first required_list=entity.required %}
 </td>
 
-<td class="manifest-ref-table"> <!-- Default Value -->
-{% if property.last.default == empty %} Empty array {%endif%}
-{% if property.last.default %} 
-  {{property.last.default}} 
-{% else %} 
-  N/A 
-{%endif%}
+<!-- Default Value -->
+<td class="manifest-ref-table">
+{% include default-value.html val=property.last.default %}
 </td>
+
 </tr>
 {% endfor %}
 </tbody></table>

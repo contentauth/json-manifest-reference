@@ -1,0 +1,11 @@
+{% if include.val == empty %} Empty array {%endif%}
+{% if include.val.first %} Object with properties: <ul>
+  {% for e in include.val.first %}
+    <li> {{e[0]}} - {{e[1]}}</li>
+  {% endfor %}
+  </ul>
+{% elsif include.val %} 
+  {{include.val}} 
+{% else %} 
+  N/A 
+{%endif%}
