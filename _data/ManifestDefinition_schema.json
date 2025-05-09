@@ -428,14 +428,6 @@
             }
           ]
         },
-        "resources": {
-          "readOnly": true,
-          "allOf": [
-            {
-              "$ref": "#/definitions/ResourceStore"
-            }
-          ]
-        },
         "thumbnail": {
           "description": "A thumbnail image capturing the visual state at the time of import.\n\nA tuple of thumbnail MIME format (for example `image/jpeg`) and binary bits of the image.",
           "anyOf": [
