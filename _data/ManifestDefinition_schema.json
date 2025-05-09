@@ -257,9 +257,6 @@
         }
       }
     },
-    "DateT": {
-      "type": "string"
-    },
     "Frame": {
       "description": "A frame range representing starting and ending frames or pages.\n\nIf both `start` and `end` are missing, the frame will span the entire asset.",
       "type": "object",
@@ -537,7 +534,7 @@
         "dateTime": {
           "anyOf": [
             {
-              "$ref": "#/definitions/DateT"
+              "type": "string"
             },
             {
               "type": "null"
@@ -801,38 +798,6 @@
         "identifier": {
           "description": "A URI that identifies the resource as referenced from the manifest.\n\nThis may be a JUMBF URI, a file path, a URL or any other string. Relative JUMBF URIs will be resolved with the manifest label. Relative file paths will be resolved with the base path if provided.",
           "type": "string"
-        }
-      }
-    },
-    "ResourceStore": {
-      "description": "Resource store to contain binary objects referenced from JSON serializable structures",
-      "type": "object",
-      "required": [
-        "resources"
-      ],
-      "properties": {
-        "base_path": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "label": {
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "resources": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "uint8",
-              "minimum": 0.0
-            }
-          }
         }
       }
     },

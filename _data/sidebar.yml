@@ -2,28 +2,26 @@ title: C2PA manifest reference
 url:
 children:
 
-  - title: Manifest definition ref.
+  - title: Manifest Definition
     url: manifest-def
     children:
 
     - title: Manifest def - CAI stylng
       url: manifest-def-cai
 
-  - title: Manifest def JSON schema
-    url: json-schema
-    children:
-
-    - title: JSON schema - CAI styling
-      url: json-schema-cai
-
-  - title: Builder
-    url: builder
-    type: top-leaf
-
   - title: Reader
     url: reader
-    type: top-leaf
+    children:
 
-  - title: Settings
-    url: settings
-    type: top-leaf
+    - title: Reader - CAI styling
+      url: reader-cai
+
+  - title: JSON schemas
+    url: json-schema-index
+    children:
+
+    - title: Manifest Def. JSON schema
+      url: md-schema
+
+    - title: Reader JSON schema
+      url: reader-schema

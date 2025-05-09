@@ -71,8 +71,3 @@ JavaScript code converts crate links to anchor links.  For example:
 `crate::Manifest` -> `#manifest`
 
 `crate::ManifestStore` -> `#manifeststore`
-
-
-
-
-
