@@ -3,14 +3,14 @@ url:
 children:
 
   - title: Manifest Definition
-    url: manifest-def
+    url: manifest-def-ref
     children:
 
     - title: Manifest def - CAI stylng
       url: manifest-def-cai
 
   - title: Reader
-    url: reader
+    url: reader-ref
     children:
 
     - title: Reader - CAI styling
