@@ -1,6 +1,6 @@
 ---
 title: CAI manifest definition reference
-permalink: manifest-def
+permalink: manifest-def-ref
 toc: false
 ---
 

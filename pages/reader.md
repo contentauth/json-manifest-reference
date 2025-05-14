@@ -1,6 +1,6 @@
 ---
 title: Reader JSON reference
-permalink: reader
+permalink: reader-ref
 toc: false
 ---
 
