@@ -1,0 +1,67 @@
+name: Update schemas to latest
+on:
+  repository_dispatch:
+    types: [c2pa-rs-release]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-schemas:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Checkout c2pa-rs repository
+        uses: actions/checkout@v5
+        with:
+          repository: contentauth/c2pa-rs
+          path: ./c2pa-rs
+          fetch-depth: 0
+
+      - name: Get latest c2pa-rs version
+        working-directory: ./c2pa-rs
+        run: |
+          latest_tag=$(git tag -l "c2pa-v*" --sort=-v:refname | head -n 1)
+          echo "latest_tag=$latest_tag" >> $GITHUB_ENV
+          echo "$latest_tag"
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+
+      - name: Build schemas
+        working-directory: ./c2pa-rs
+        run: cargo run --bin export_schema
+
+      - name: Remove old schemas in ./_data
+        run: |
+          shopt -s extglob
+          rm -v ./_data/!(sidebar.yml)
+
+      - name: Move new schemas into ./_data
+        run: cp ./c2pa-rs/target/schema/* ./_data/*
+
+      - name: Check schemas for diff
+        id: diffs
+        run: |
+          if [ -n "$(git status --porcelain -- _data)" ]; then
+            echo "diff=true" >> "$GITHUB_OUTPUT"
+            echo "true"
+          else
+            echo "diff=false" >> "$GITHUB_OUTPUT"
+            echo "false"
+          fi
+
+      - name: Send schema PR
+        if: steps.diffs.outputs.diff == 'true'
+        uses: peter-evans/create-pull-request@v7
+        with:
+          title: "docs(schema): update schemas to ${{ env.latest_tag }}"
+          commit-message: "docs(schema): update schemas to ${{ env.latest_tag }}"
+          branch: "schema-${{ env.latest_tag }}"
+          add-paths: ./_data/*
+          base: ${{ github.event.repository.default_branch }}
