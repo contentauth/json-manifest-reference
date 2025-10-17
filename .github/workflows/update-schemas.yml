@@ -43,7 +43,7 @@ jobs:
           rm -v ./_data/!(sidebar.yml)
 
       - name: Move new schemas into ./_data
-        run: cp ./c2pa-rs/target/schema/* ./_data/*
+        run: cp ./c2pa-rs/target/schema/* ./_data/
 
       - name: Check schemas for diff
         id: diffs
@@ -61,6 +61,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         with:
           title: "docs(schema): update schemas to ${{ env.latest_tag }}"
+          body: "Updates schemas to ${{ env.latest_tag }}."
           commit-message: "docs(schema): update schemas to ${{ env.latest_tag }}"
           branch: "schema-${{ env.latest_tag }}"
           add-paths: ./_data/*
