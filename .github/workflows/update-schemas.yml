@@ -37,11 +37,6 @@ jobs:
         working-directory: ./c2pa-rs
         run: cargo run --bin export_schema
 
-      - name: Remove old schemas in ./_data
-        run: |
-          shopt -s extglob
-          rm -v ./_data/!(sidebar.yml)
-
       - name: Move new schemas into ./_data
         run: cp ./c2pa-rs/target/schema/* ./_data/
 
