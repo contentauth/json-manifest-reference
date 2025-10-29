@@ -38,7 +38,14 @@ jobs:
         run: cargo run --bin export_schema
 
       - name: Move new schemas into ./_data
-        run: cp ./c2pa-rs/target/schema/* ./_data/
+        run: |
+          # We also rename the schemas to have an underscore in the filename instead of a dot to fix
+          # compatibility issues with Ruby/Jekyll.
+          for path in ./c2pa-rs/target/schema/*.schema.json; do
+            name=$(basename "$path")
+            new=${name/.schema/_schema}
+            cp "$path" "./_data/$new"
+          done
 
       - name: Check schemas for diff
         id: diffs
