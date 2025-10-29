@@ -1,49 +1,134 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "Reader",
-  "description": "Use a Reader to read and validate a manifest store.",
+  "title": "Builder",
+  "description": "Use a Builder to add a signed manifest to an asset.\n\n# Example: Building and signing a manifest\n\n```ignore-wasm32\nuse c2pa::Result;\nuse std::path::PathBuf;\n\nuse c2pa::{create_signer, Builder, SigningAlg};\nuse serde::Serialize;\nuse serde_json::json;\nuse tempfile::tempdir;\n\n#[derive(Serialize)]\nstruct Test {\n    my_tag: usize,\n}\n\n# fn main() -> Result<()> {\n#[cfg(feature = \"file_io\")]\n{\n    let manifest_json = json!({\n       \"claim_generator_info\": [\n          {\n              \"name\": \"c2pa_test\",\n              \"version\": \"1.0.0\"\n          }\n       ],\n       \"title\": \"Test_Manifest\"\n    }).to_string();\n\n    let mut builder = Builder::from_json(&manifest_json)?;\n    builder.add_assertion(\"org.contentauth.test\", &Test { my_tag: 42 })?;\n\n    let source = PathBuf::from(\"tests/fixtures/C.jpg\");\n    let dir = tempdir()?;\n    let dest = dir.path().join(\"test_file.jpg\");\n\n    // Create a ps256 signer using certs and key files. TO DO: Update example.\n    let signcert_path = \"tests/fixtures/certs/ps256.pub\";\n    let pkey_path = \"tests/fixtures/certs/ps256.pem\";\n    let signer = create_signer::from_files(signcert_path, pkey_path, SigningAlg::Ps256, None)?;\n\n    // embed a manifest using the signer\n    builder.sign_file(\n        signer.as_ref(),\n        &source,\n        &dest)?;\n    }\n# Ok(())\n# }\n```",
   "type": "object",
   "properties": {
-    "active_manifest": {
-      "description": "A label for the active (most recent) manifest in the store",
+    "claim_version": {
+      "description": "The version of the claim.  Defaults to 2.",
+      "type": [
+        "integer",
+        "null"
+      ],
+      "format": "uint8",
+      "minimum": 0,
+      "maximum": 255
+    },
+    "vendor": {
+      "description": "Optional prefix added to the generated Manifest Label\nThis is typically a reverse domain name.",
       "type": [
         "string",
         "null"
       ]
     },
-    "manifests": {
-      "description": "A HashMap of Manifests",
-      "type": "object",
-      "additionalProperties": {
-        "$ref": "#/$defs/Manifest"
-      }
+    "claim_generator_info": {
+      "description": "Claim Generator Info is always required with an entry",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/ClaimGeneratorInfo"
+      },
+      "default": [
+        {
+          "name": "c2pa-rs",
+          "version": "0.68.0"
+        }
+      ]
     },
-    "validation_status": {
-      "description": "ValidationStatus generated when loading the ManifestStore from an asset",
+    "metadata": {
+      "description": "Optional manifest metadata. This will be deprecated in the future; not recommended to use.",
       "type": [
         "array",
         "null"
       ],
       "items": {
-        "$ref": "#/$defs/ValidationStatus"
+        "$ref": "#/$defs/AssertionMetadata"
       }
     },
-    "validation_results": {
-      "description": "ValidationStatus generated when loading the ManifestStore from an asset",
+    "title": {
+      "description": "A human-readable title, generally source filename.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "format": {
+      "description": "The format of the source file as a MIME type.",
+      "type": "string",
+      "default": "application/octet-stream"
+    },
+    "instance_id": {
+      "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
+      "type": "string",
+      "default": "xmp:iid:b246e62d-4bb1-4b12-9604-ecb36d25a950"
+    },
+    "thumbnail": {
+      "description": "An optional ResourceRef to a thumbnail image that represents the asset that was signed.\nMust be available when the manifest is signed.",
       "anyOf": [
         {
-          "$ref": "#/$defs/ValidationResults"
+          "$ref": "#/$defs/ResourceRef"
         },
         {
           "type": "null"
         }
       ]
     },
-    "validation_state": {
-      "description": "The validation state of the manifest store",
+    "ingredients": {
+      "description": "A List of ingredients",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/Ingredient"
+      },
+      "default": []
+    },
+    "assertions": {
+      "description": "A list of assertions",
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/AssertionDefinition"
+      },
+      "default": []
+    },
+    "redactions": {
+      "description": "A list of redactions - URIs to redacted assertions.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items": {
+        "type": "string"
+      }
+    },
+    "label": {
+      "description": "Allows you to pre-define the manifest label, which must be unique.\nNot intended for general use.  If not set, it will be assigned automatically.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "remote_url": {
+      "description": "Optional remote URL for the manifest",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "no_embed": {
+      "description": "If true, the manifest store will not be embedded in the asset on sign",
+      "type": "boolean"
+    },
+    "base_path": {
+      "description": "Base path to search for resources.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "deprecated": true
+    },
+    "intent": {
+      "description": "A builder should construct a created, opened or updated manifest.",
       "anyOf": [
         {
-          "$ref": "#/$defs/ValidationState"
+          "$ref": "#/$defs/BuilderIntent"
         },
         {
           "type": "null"
@@ -52,129 +137,9 @@
     }
   },
   "required": [
-    "manifests"
+    "no_embed"
   ],
   "$defs": {
-    "Manifest": {
-      "description": "A Manifest represents all the information in a c2pa manifest",
-      "type": "object",
-      "properties": {
-        "vendor": {
-          "description": "Optional prefix added to the generated Manifest label.\nThis is typically an internet domain name for the vendor (i.e. `adobe`).",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "claim_generator": {
-          "description": "A User Agent formatted string identifying the software/hardware/system produced this claim\nSpaces are not allowed in names, versions can be specified with product/1.0 syntax.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "claim_generator_info": {
-          "description": "A list of claim generator info data identifying the software/hardware/system produced this claim.",
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
-            "$ref": "#/$defs/ClaimGeneratorInfo"
-          }
-        },
-        "metadata": {
-          "description": "A list of user metadata for this claim.",
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
-            "$ref": "#/$defs/AssertionMetadata"
-          }
-        },
-        "title": {
-          "description": "A human-readable title, generally source filename.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "format": {
-          "description": "The format of the source file as a MIME type.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "instance_id": {
-          "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
-          "type": "string",
-          "default": "xmp:iid:76a9b821-6f42-4920-b9d7-52757d5edb4e"
-        },
-        "thumbnail": {
-          "anyOf": [
-            {
-              "$ref": "#/$defs/ResourceRef"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "ingredients": {
-          "description": "A List of ingredients",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/Ingredient"
-          },
-          "default": []
-        },
-        "credentials": {
-          "description": "A List of verified credentials",
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": true
-        },
-        "assertions": {
-          "description": "A list of assertions",
-          "type": "array",
-          "items": {
-            "$ref": "#/$defs/ManifestAssertion"
-          },
-          "default": []
-        },
-        "redactions": {
-          "description": "A list of redactions - URIs to a redacted assertions",
-          "type": [
-            "array",
-            "null"
-          ],
-          "items": {
-            "type": "string"
-          }
-        },
-        "signature_info": {
-          "description": "Signature data (only used for reporting)",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/SignatureInfo"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "label": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
-    },
     "ClaimGeneratorInfo": {
       "description": "Description of the claim generator, or the software used in generating the claim.\n\nThis structure is also used for actions softwareAgent",
       "type": "object",
@@ -1222,8 +1187,8 @@
         "validationDeltas"
       ]
     },
-    "ManifestAssertion": {
-      "description": "A labeled container for an Assertion value in a Manifest",
+    "AssertionDefinition": {
+      "description": "Defines an assertion that consists of a label that can be either\na C2PA-defined assertion label or a custom label in reverse domain format.",
       "type": "object",
       "properties": {
         "label": {
@@ -1231,20 +1196,11 @@
           "type": "string"
         },
         "data": {
-          "description": "The data of the assertion as Value",
-          "$ref": "#/$defs/ManifestData"
-        },
-        "instance": {
-          "description": "There can be more than one assertion for any label",
-          "type": [
-            "integer",
-            "null"
-          ],
-          "format": "uint",
-          "minimum": 0
+          "description": "The assertion data",
+          "$ref": "#/$defs/AssertionData"
         },
         "kind": {
-          "description": "The [ManifestAssertionKind] for this assertion (as stored in c2pa content)",
+          "description": "The kind of assertion data, either Cbor or Json (defaults to Cbor)",
           "anyOf": [
             {
               "$ref": "#/$defs/ManifestAssertionKind"
@@ -1255,7 +1211,7 @@
           ]
         },
         "created": {
-          "description": "True if this assertion is attributed to the signer\nThis maps to a created vs a gathered assertion. (defaults to false)",
+          "description": "True if this assertion is attributed to the signer (defaults to false)",
           "type": "boolean"
         }
       },
@@ -1264,18 +1220,10 @@
         "data"
       ]
     },
-    "ManifestData": {
+    "AssertionData": {
+      "description": "This allows the assertion to be expressed as CBOR or JSON.\nThe default is CBOR unless you specify that an assertion should be JSON.",
       "anyOf": [
-        true,
-        {
-          "type": "array",
-          "items": {
-            "type": "integer",
-            "format": "uint8",
-            "minimum": 0,
-            "maximum": 255
-          }
-        }
+        true
       ]
     },
     "ManifestAssertionKind": {
@@ -1288,115 +1236,153 @@
         "Uri"
       ]
     },
-    "SignatureInfo": {
-      "description": "Holds information about a signature",
-      "type": "object",
-      "properties": {
-        "alg": {
-          "description": "Human-readable issuing authority for this signature.",
-          "anyOf": [
-            {
-              "$ref": "#/$defs/SigningAlg"
-            },
-            {
-              "type": "null"
-            }
-          ]
-        },
-        "issuer": {
-          "description": "Human-readable issuing authority for this signature.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "common_name": {
-          "description": "Human-readable for common name of this certificate.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "cert_serial_number": {
-          "description": "The serial number of the certificate.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "time": {
-          "description": "The time the signature was created.",
-          "type": [
-            "string",
-            "null"
-          ]
-        },
-        "revocation_status": {
-          "description": "Revocation status of the certificate.",
-          "type": [
-            "boolean",
-            "null"
-          ]
-        }
-      }
-    },
-    "SigningAlg": {
-      "description": "Describes the digital signature algorithms allowed by the C2PA spec.\n\nPer [§13.2, “Digital Signatures”]:\n\n> All digital signatures applied as per the technical requirements of this\n> specification shall be generated using one of the digital signature\n> algorithms and key types listed as described in this section.\n\n[§13.2, “Digital Signatures”]: https://c2pa.org/specifications/specifications/2.1/specs/C2PA_Specification.html#_digital_signatures",
+    "BuilderIntent": {
+      "description": "Represents the type of builder flow being used.\n\nThis determines how the builder will be used, such as creating a new asset, opening an existing asset,\nor updating an existing asset.",
       "oneOf": [
         {
-          "description": "ECDSA with SHA-256",
-          "type": "string",
-          "const": "Es256"
+          "description": "This is a new digital creation, a DigitalSourceType is required.\n\nThe Manifest must not have have a parent ingredient.\nA `c2pa.created` action will be added if not provided.",
+          "type": "object",
+          "properties": {
+            "create": {
+              "$ref": "#/$defs/DigitalSourceType"
+            }
+          },
+          "required": [
+            "create"
+          ],
+          "additionalProperties": false
         },
         {
-          "description": "ECDSA with SHA-384",
+          "description": "This is an edit of a pre-existing parent asset.\n\nThe Manifest must have a parent ingredient.\nA parent ingredient will be generated from the source stream if not otherwise provided.\nA `c2pa.opened action will be tied to the parent ingredient.",
           "type": "string",
-          "const": "Es384"
+          "const": "edit"
         },
         {
-          "description": "ECDSA with SHA-512",
+          "description": "A restricted version of Edit for non-editorial changes.\n\nThere must be only one ingredient, as a parent.\nNo changes can be made to the hashed content of the parent.\nThere are additional restrictions on the types of changes that can be made.",
           "type": "string",
-          "const": "Es512"
-        },
-        {
-          "description": "RSASSA-PSS using SHA-256 and MGF1 with SHA-256",
-          "type": "string",
-          "const": "Ps256"
-        },
-        {
-          "description": "RSASSA-PSS using SHA-384 and MGF1 with SHA-384",
-          "type": "string",
-          "const": "Ps384"
-        },
-        {
-          "description": "RSASSA-PSS using SHA-512 and MGF1 with SHA-512",
-          "type": "string",
-          "const": "Ps512"
-        },
-        {
-          "description": "Edwards-Curve DSA (Ed25519 instance only)",
-          "type": "string",
-          "const": "Ed25519"
+          "const": "update"
         }
       ]
     },
-    "ValidationState": {
-      "description": "Indicates if the manifest store is valid and trusted.\n\nThe Trusted state implies the manifest store is valid and the active signature is trusted.",
-      "oneOf": [
+    "DigitalSourceType": {
+      "description": "Description of the source of an asset.\n\nThe full list of possible digital source types are found below:\n<https://spec.c2pa.org/specifications/specifications/2.2/specs/C2PA_Specification.html#_digital_source_type>\n<https://cv.iptc.org/newscodes/digitalsourcetype>",
+      "anyOf": [
         {
-          "description": "Errors were found in the manifest store.",
+          "description": "Media whose digital content is effectively empty, such as a blank canvas or zero-length video.",
           "type": "string",
-          "const": "Invalid"
+          "const": "http://c2pa.org/digitalsourcetype/empty"
         },
         {
-          "description": "No errors were found in validation, but the active signature is not trusted.",
+          "description": "Data that is the result of algorithmically using a model derived from sampled content and data.\nDiffers from <http://cv.iptc.org/newscodes/digitalsourcetype/>trainedAlgorithmicMedia in that\nthe result isn’t a media type (e.g., image or video) but is a data format (e.g., CSV, pickle).",
           "type": "string",
-          "const": "Valid"
+          "const": "http://c2pa.org/digitalsourcetype/trainedAlgorithmicData"
         },
         {
-          "description": "The manifest store is valid and the active signature is trusted.",
+          "description": "The media was captured from a real-life source using a digital camera or digital recording device.",
           "type": "string",
-          "const": "Trusted"
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+        },
+        {
+          "description": "The media is the result of capturing multiple frames from a real-life source using a digital camera\nor digital recording device, then automatically merging them into a single frame using digital signal\nprocessing techniques and/or non-generative AI. Includes High Dynamic Range (HDR) processing common in\nsmartphone camera apps.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/computationalCapture"
+        },
+        {
+          "description": "The media was digitised from a negative on film or other transparent medium.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/negativeFilm"
+        },
+        {
+          "description": "The media was digitised from a positive on a transparency or other transparent medium.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/positiveFilm"
+        },
+        {
+          "description": "The media was digitised from a non-transparent medium such as a photographic print.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/print"
+        },
+        {
+          "description": "Minor augmentation or correction by a human, such as a digitally-retouched photo used in a magazine.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/minorHumanEdits",
+          "deprecated": true
+        },
+        {
+          "description": "Augmentation, correction or enhancement by one or more humans using non-generative tools.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/humanEdits"
+        },
+        {
+          "description": "Augmentation, correction or enhancement using a Generative AI model, such as with inpainting or\noutpainting operations.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/compositeWithTrainedAlgorithmicMedia"
+        },
+        {
+          "description": "Modification or correction by algorithm without changing the main content of the media, initiated\nor configured by a human, such as sharpening or applying noise reduction.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicallyEnhanced"
+        },
+        {
+          "description": "The digital image was created by computer software.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/softwareImage",
+          "deprecated": true
+        },
+        {
+          "description": "Media created by a human using digital tools.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalArt",
+          "deprecated": true
+        },
+        {
+          "description": "Media created by a human using non-generative tools.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCreation"
+        },
+        {
+          "description": "Digital media representation of data via human programming or creativity.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/dataDrivenMedia"
+        },
+        {
+          "description": "Digital media created algorithmically using an Artificial Intelligence model trained on captured\ncontent.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+        },
+        {
+          "description": "Media created purely by an algorithm not based on any sampled training data, e.g. an image created\nby software using a mathematical formula.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicMedia"
+        },
+        {
+          "description": "A capture of the contents of the screen of a computer or mobile device.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/screenCapture"
+        },
+        {
+          "description": "Live recording of virtual event based on Generative AI and/or captured elements.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/virtualRecording"
+        },
+        {
+          "description": "Mix or composite of several elements, any of which may or may not be generative AI.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/composite"
+        },
+        {
+          "description": "Mix or composite of several elements that are all captures of real life.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/compositeCapture"
+        },
+        {
+          "description": "Mix or composite of several elements, at least one of which is Generative AI.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/compositeSynthetic"
+        },
+        {
+          "description": "An unknown digital source type.",
+          "type": "string"
         }
       ]
     }
