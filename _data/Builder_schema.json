@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "title": "ManifestDefinition",
-  "description": "Use a ManifestDefinition to define a manifest and to build a `ManifestStore`.\nA manifest is a collection of ingredients and assertions\nused to define a claim that can be signed and embedded into a file.",
+  "title": "Builder",
+  "description": "Use a Builder to add a signed manifest to an asset.\n\n# Example: Building and signing a manifest\n\n```ignore-wasm32\nuse c2pa::Result;\nuse std::path::PathBuf;\n\nuse c2pa::{create_signer, Builder, SigningAlg};\nuse serde::Serialize;\nuse serde_json::json;\nuse tempfile::tempdir;\n\n#[derive(Serialize)]\nstruct Test {\n    my_tag: usize,\n}\n\n# fn main() -> Result<()> {\n#[cfg(feature = \"file_io\")]\n{\n    let manifest_json = json!({\n       \"claim_generator_info\": [\n          {\n              \"name\": \"c2pa_test\",\n              \"version\": \"1.0.0\"\n          }\n       ],\n       \"title\": \"Test_Manifest\"\n    }).to_string();\n\n    let mut builder = Builder::from_json(&manifest_json)?;\n    builder.add_assertion(\"org.contentauth.test\", &Test { my_tag: 42 })?;\n\n    let source = PathBuf::from(\"tests/fixtures/C.jpg\");\n    let dir = tempdir()?;\n    let dest = dir.path().join(\"test_file.jpg\");\n\n    // Create a ps256 signer using certs and key files. TO DO: Update example.\n    let signcert_path = \"tests/fixtures/certs/ps256.pub\";\n    let pkey_path = \"tests/fixtures/certs/ps256.pem\";\n    let signer = create_signer::from_files(signcert_path, pkey_path, SigningAlg::Ps256, None)?;\n\n    // embed a manifest using the signer\n    builder.sign_file(\n        signer.as_ref(),\n        &source,\n        &dest)?;\n    }\n# Ok(())\n# }\n```",
   "type": "object",
   "properties": {
     "claim_version": {
@@ -59,7 +59,7 @@
     "instance_id": {
       "description": "Instance ID from `xmpMM:InstanceID` in XMP metadata.",
       "type": "string",
-      "default": "xmp:iid:e2f8753d-c8e8-4707-a5b0-fa490d1cd1b3"
+      "default": "xmp:iid:4b2f3df0-7539-4abd-b166-df57c6ff5e89"
     },
     "thumbnail": {
       "description": "An optional ResourceRef to a thumbnail image that represents the asset that was signed.\nMust be available when the manifest is signed.",
@@ -104,8 +104,42 @@
         "string",
         "null"
       ]
+    },
+    "remote_url": {
+      "description": "Optional remote URL for the manifest",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "no_embed": {
+      "description": "If true, the manifest store will not be embedded in the asset on sign",
+      "type": "boolean"
+    },
+    "base_path": {
+      "description": "Base path to search for resources.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "deprecated": true
+    },
+    "intent": {
+      "description": "A builder should construct a created, opened or updated manifest.",
+      "anyOf": [
+        {
+          "$ref": "#/$defs/BuilderIntent"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "deprecated": true
     }
   },
+  "required": [
+    "no_embed"
+  ],
   "$defs": {
     "ClaimGeneratorInfo": {
       "description": "Description of the claim generator, or the software used in generating the claim.\n\nThis structure is also used for actions softwareAgent",
@@ -1205,6 +1239,156 @@
         "Json",
         "Binary",
         "Uri"
+      ]
+    },
+    "BuilderIntent": {
+      "description": "Represents the type of builder flow being used.\n\nThis determines how the builder will be used, such as creating a new asset, opening an existing asset,\nor updating an existing asset.",
+      "oneOf": [
+        {
+          "description": "This is a new digital creation, a DigitalSourceType is required.\n\nThe Manifest must not have have a parent ingredient.\nA `c2pa.created` action will be added if not provided.",
+          "type": "object",
+          "properties": {
+            "create": {
+              "$ref": "#/$defs/DigitalSourceType"
+            }
+          },
+          "required": [
+            "create"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "description": "This is an edit of a pre-existing parent asset.\n\nThe Manifest must have a parent ingredient.\nA parent ingredient will be generated from the source stream if not otherwise provided.\nA `c2pa.opened action will be tied to the parent ingredient.",
+          "type": "string",
+          "const": "edit"
+        },
+        {
+          "description": "A restricted version of Edit for non-editorial changes.\n\nThere must be only one ingredient, as a parent.\nNo changes can be made to the hashed content of the parent.\nThere are additional restrictions on the types of changes that can be made.",
+          "type": "string",
+          "const": "update"
+        }
+      ]
+    },
+    "DigitalSourceType": {
+      "description": "Description of the source of an asset.\n\nThe full list of possible digital source types are found below:\n<https://spec.c2pa.org/specifications/specifications/2.2/specs/C2PA_Specification.html#_digital_source_type>\n<https://cv.iptc.org/newscodes/digitalsourcetype>",
+      "anyOf": [
+        {
+          "description": "Media whose digital content is effectively empty, such as a blank canvas or zero-length video.",
+          "type": "string",
+          "const": "http://c2pa.org/digitalsourcetype/empty"
+        },
+        {
+          "description": "Data that is the result of algorithmically using a model derived from sampled content and data.\nDiffers from <http://cv.iptc.org/newscodes/digitalsourcetype/>trainedAlgorithmicMedia in that\nthe result isn’t a media type (e.g., image or video) but is a data format (e.g., CSV, pickle).",
+          "type": "string",
+          "const": "http://c2pa.org/digitalsourcetype/trainedAlgorithmicData"
+        },
+        {
+          "description": "The media was captured from a real-life source using a digital camera or digital recording device.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCapture"
+        },
+        {
+          "description": "The media is the result of capturing multiple frames from a real-life source using a digital camera\nor digital recording device, then automatically merging them into a single frame using digital signal\nprocessing techniques and/or non-generative AI. Includes High Dynamic Range (HDR) processing common in\nsmartphone camera apps.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/computationalCapture"
+        },
+        {
+          "description": "The media was digitised from a negative on film or other transparent medium.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/negativeFilm"
+        },
+        {
+          "description": "The media was digitised from a positive on a transparency or other transparent medium.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/positiveFilm"
+        },
+        {
+          "description": "The media was digitised from a non-transparent medium such as a photographic print.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/print"
+        },
+        {
+          "description": "Minor augmentation or correction by a human, such as a digitally-retouched photo used in a magazine.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/minorHumanEdits",
+          "deprecated": true
+        },
+        {
+          "description": "Augmentation, correction or enhancement by one or more humans using non-generative tools.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/humanEdits"
+        },
+        {
+          "description": "Augmentation, correction or enhancement using a Generative AI model, such as with inpainting or\noutpainting operations.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/compositeWithTrainedAlgorithmicMedia"
+        },
+        {
+          "description": "Modification or correction by algorithm without changing the main content of the media, initiated\nor configured by a human, such as sharpening or applying noise reduction.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicallyEnhanced"
+        },
+        {
+          "description": "The digital image was created by computer software.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/softwareImage",
+          "deprecated": true
+        },
+        {
+          "description": "Media created by a human using digital tools.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalArt",
+          "deprecated": true
+        },
+        {
+          "description": "Media created by a human using non-generative tools.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/digitalCreation"
+        },
+        {
+          "description": "Digital media representation of data via human programming or creativity.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/dataDrivenMedia"
+        },
+        {
+          "description": "Digital media created algorithmically using an Artificial Intelligence model trained on captured\ncontent.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+        },
+        {
+          "description": "Media created purely by an algorithm not based on any sampled training data, e.g. an image created\nby software using a mathematical formula.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/algorithmicMedia"
+        },
+        {
+          "description": "A capture of the contents of the screen of a computer or mobile device.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/screenCapture"
+        },
+        {
+          "description": "Live recording of virtual event based on Generative AI and/or captured elements.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/virtualRecording"
+        },
+        {
+          "description": "Mix or composite of several elements, any of which may or may not be generative AI.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/composite"
+        },
+        {
+          "description": "Mix or composite of several elements that are all captures of real life.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/compositeCapture"
+        },
+        {
+          "description": "Mix or composite of several elements, at least one of which is Generative AI.",
+          "type": "string",
+          "const": "http://cv.iptc.org/newscodes/digitalsourcetype/compositeSynthetic"
+        },
+        {
+          "description": "An unknown digital source type.",
+          "type": "string"
+        }
       ]
     }
   }
